@@ -7,7 +7,7 @@ class Pasajero extends Persona{
         $this->objViaje = "";
     }
 
-    public function cargar($idpersona,$NroD,$Nom,$Ape,$telefono,$objViaje){
+    public function cargar($idpersona,$NroD,$Nom,$Ape,$telefono,$objViaje = null){
         parent::cargar($idpersona,$NroD,$Nom,$Ape,$telefono);
         $this->setIdViaje($objViaje);
     }
