@@ -8,7 +8,6 @@ class Persona{
 	private $telefono;
 	private $mensajeoperacion;
 
-
 	public function __construct(){
 	    $this->idpersona=0;
 		$this->nrodoc = "";
@@ -141,7 +140,6 @@ class Persona{
 		$resp= false;
 		$consultaInsertar="INSERT INTO persona(nrodoc, apellido, nombre,  email) 
 				VALUES (".$this->getNrodoc().",'".$this->getApellido()."','".$this->getNombre()."','".$this->getEmail()."')";
-		
 		if($base->Iniciar()){
 
 			if($id = $base->devuelveIDInsercion($consultaInsertar)){

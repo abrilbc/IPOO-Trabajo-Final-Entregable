@@ -8,21 +8,22 @@ CREATE TABLE persona (
     telefono int,
 /*  email varchar(150), */
     PRIMARY KEY (numDocumento)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
 
 CREATE TABLE empresa(
     idempresa bigint AUTO_INCREMENT,
     enombre varchar(150),
     edireccion varchar(150),
     PRIMARY KEY (idempresa)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
 
 CREATE TABLE responsable (
     rnumeroempleado bigint AUTO_INCREMENT,
     rnumerolicencia bigint,
-/*  rnumDocumento int, */
-    PRIMARY KEY (rnumeroempleado) /* rnumDocumento */
-    )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;;
+    rnumDocumento bigint,
+    PRIMARY KEY (rnumDocumento)
+    FOREIGN KEY (rnumDocumento) REFERENCES 
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 	
 CREATE TABLE viaje (
     idviaje bigint AUTO_INCREMENT, /*codigo de viaje*/
