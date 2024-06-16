@@ -6,6 +6,12 @@ class Pasajero extends Persona{
         parent::__construct();
         $this->objViaje = "";
     }
+
+    public function cargar($idpersona,$NroD,$Nom,$Ape,$telefono,$objViaje){
+        parent::cargar($idpersona,$NroD,$Nom,$Ape,$telefono);
+        $this->setIdViaje($objViaje);
+    }
+
     public function getObjViaje()
     {
         return $this->objViaje;

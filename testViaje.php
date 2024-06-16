@@ -3,7 +3,7 @@ include_once 'BaseDatos.php';
 include_once 'Persona.php';
 include_once 'empresa.php';
 include_once 'pasajero.php';
-include_once 'responsableV-php';
+include_once 'responsableV.php';
 include_once 'viaje.php';
 
 function menuPrincipal(){
@@ -50,3 +50,13 @@ function menuPersona(){
 
     }
 }
+
+$persona = new Persona();
+
+$persona->cargar(5, 45390428, "Brisa", "Celayes", 299651651);
+
+$pasajero = new Pasajero();
+
+$pasajero->cargar(5, 45390428, "Brisa", "Celayes", 299651651, "ObjViaje");
+
+echo $pasajero;

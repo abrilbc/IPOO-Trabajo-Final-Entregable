@@ -1,15 +1,21 @@
 <?php
-include_once('BaseDatos.php');
+include_once('../BaseDatos/BaseDatos.php');
 class Empresa{
     private $idempresa;
     private $enombre;
     private $edireccion;
-    public function __construct($idempresa,$enombre,$edireccion){
-        $this->idempresa=$idempresa;
-        $this->enombre=$enombre;
-        $this->edireccion=$edireccion;
+
+    public function __construct(){
+        $this->idempresa="";
+        $this->enombre="";
+        $this->edireccion="";
     }
 
+    public function cargar($idempresa,$enombre,$edireccion){	
+	    $this->setIdempresa($idempresa);
+        $this->setEnombre($enombre);
+        $this->setEdireccion($edireccion);
+    }
 
     public function getIdempresa(){
         return $this->idempresa;

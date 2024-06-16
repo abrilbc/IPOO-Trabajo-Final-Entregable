@@ -3,11 +3,18 @@ include_once('BaseDatos.php');
 class ResponsableV extends Persona{
     private $rnumeroempleado;
     private $rnumerolicencia;
-    public function __construct($nombre, $apellido, $numDocumento, $telefono, $rnumeroempleado, $rnumerolicencia) {
-        parent::__construct($nombre, $apellido, $numDocumento, $telefono);
-        $this->rnumeroempleado = $rnumeroempleado;
-        $this->rnumerolicencia = $rnumerolicencia;
+    public function __construct() {
+        parent::__construct();
+        $this->rnumeroempleado = "";
+        $this->rnumerolicencia = "";
     }
+
+    public function cargar($idpersona,$NroD,$Nom,$Ape,$telefono,$rnumeroempleado,$rnumerolicencia){
+    parent::cargar($idpersona,$NroD,$Nom,$Ape,$telefono);
+    $this->setRnumeroempleado($rnumeroempleado);
+    $this->setRnumerolicencia($rnumerolicencia);
+    }
+
     public function getRnumeroempleado()
     {
         return $this->rnumeroempleado;
