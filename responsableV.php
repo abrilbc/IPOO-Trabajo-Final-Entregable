@@ -5,7 +5,7 @@ class ResponsableV extends Persona{
     private $rnumerolicencia;
     public function __construct() {
         parent::__construct();
-        $this->rnumeroempleado = "";
+        $this->rnumeroempleado = 0;
         $this->rnumerolicencia = "";
     }
 

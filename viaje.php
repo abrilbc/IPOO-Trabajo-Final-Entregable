@@ -9,14 +9,23 @@ class Viaje {
     private $vimporte;
     private $coleccionObjPasajeros;
 
-    public function __construct($idviaje,$vdestino,$vcantmaxpasajeros,$idempresa,$rnumeroempleado,$vimporte,$coleccionObjPasajeros){
-        $this->idviaje=$idviaje;
-        $this->vdestino=$vdestino;
-        $this->vcantmaxpasajeros=$vcantmaxpasajeros;
-        $this->idempresa=$idempresa;
-        $this->rnumeroempleado=$rnumeroempleado;
-        $this->vimporte=$vimporte;
-        $this->coleccionObjPasajeros = $coleccionObjPasajeros;
+    public function __construct(){
+        $this->idviaje = 1;
+        $this->vdestino ="vdestino";
+        $this->vcantmaxpasajeros="";
+        $this->idempresa ="";
+        $this->rnumeroempleado ="";
+        $this->vimporte ="";
+        $this->coleccionObjPasajeros=[];
+    }
+
+    public function cargar($idviaje,$vdestino,$vcantmaxpasajeros,$idempresa,$rnumeroempleado,$vimporte){
+        $this->setIdviaje($idviaje);
+        $this->setVdestino($vdestino);
+        $this->setVcantmaxpasajeros($vcantmaxpasajeros);
+        $this->setIdempresa($idempresa);
+        $this->setRnumeroempleado($rnumeroempleado);
+        $this->setVimporte($vimporte);
     }
     
     public function getIdviaje(){

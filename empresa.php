@@ -6,7 +6,7 @@ class Empresa{
     private $edireccion;
 
     public function __construct(){
-        $this->idempresa="";
+        $this->idempresa=0;
         $this->enombre="";
         $this->edireccion="";
     }
