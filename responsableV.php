@@ -42,16 +42,18 @@ class ResponsableV extends Persona{
 	 */		
     public function Buscar($dni){
 		$base=new BaseDatos();
-		$consultaPersona="Select * from responsable where nrodoc=".$dni;
+		$consultaResponsable = "Select * from responsable where rnumDocumento=".$dni;
 		$resp= false;
 		if($base->Iniciar()){
-			if($base->Ejecutar($consultaPersona)){
+			if($base->Ejecutar($consultaResponsable)){
 				if($row2=$base->Registro()){
 				    $this->setIdPersona($row2['idpersona']);
 				    $this->setNrodoc($dni);
 					$this->setNombre($row2['nombre']);
 					$this->setApellido($row2['apellido']);
 					$this->setTelefono($row2['telefono']);
+                    $this->setRnumeroempleado($row2['rnumeroempleado']);
+                    $this->setRnumerolicencia($row2['rnumerolicencia']);
 					$resp= true;
 				}				
 			
@@ -68,28 +70,28 @@ class ResponsableV extends Persona{
     
 
 	public function listar($condicion=""){
-	    $arregloPersona = null;
-		$base=new BaseDatos();
-		$consultaPersonas="Select * from persona ";
+	    $arregloResponsable = null;
+		$base = new BaseDatos();
+		$consultaResponsable="Select * from responsable ";
 		if ($condicion!=""){
-		    $consultaPersonas=$consultaPersonas.' where '.$condicion;
+		    $consultaResponsable = $consultaResponsable .' where '.$condicion;
 		}
-		$consultaPersonas.=" order by apellido ";
-		//echo $consultaPersonas;
+		$consultaResponsable.=" order by rnumeroempleado ";
 		if($base->Iniciar()){
-			if($base->Ejecutar($consultaPersonas)){				
-				$arregloPersona= array();
-				while($row2=$base->Registro()){
+			if($base->Ejecutar($consultaResponsable)){				
+				$arregloResponsable = array();
+				while($row2 = $base->Registro()){
 				    $id=$row2['idpersona'];
 					$NroDoc=$row2['nrodoc'];
 					$Nombre=$row2['nombre'];
 					$Apellido=$row2['apellido'];
-					$Email=$row2['email'];
-				
-					$perso=new Persona();
-					$perso->cargar($id,$NroDoc,$Nombre,$Apellido,$Email);
-					array_push($arregloPersona,$perso);
-	
+					$telefono=$row2['telefono'];
+                    $nroEmpleado = $row2['rnumeroempleado'];
+                    $nroLicencia = $row2['rnumerolicencia'];
+					$respo = new ResponsableV();
+					$respo->cargar($id,$NroDoc,$Nombre,$Apellido,$telefono);
+                    $respo->cargarEmpleado($nroEmpleado, $nroLicencia);
+					array_push($arregloResponsable,$respo);
 				}
 				
 			
@@ -101,22 +103,21 @@ class ResponsableV extends Persona{
 		 		$this->setmensajeoperacion($base->getError());
 		 	
 		 }	
-		 return $arregloPersona;
+		 return $arregloResponsable;
 	}	
 
 
 	
 	public function insertar(){
-		$base=new BaseDatos();
-		$resp= false;
-		$consultaInsertar="INSERT INTO persona(nrodoc, apellido, nombre,  email) 
-				VALUES (".$this->getNrodoc().",'".$this->getApellido()."','".$this->getNombre()."','".$this->getEmail()."')";
+		$base = new BaseDatos();
+		$resp = false;
+		$consultaInsertar = "INSERT INTO responsable(rnumDocumento, rnumeroempleado, rnumerolicencia) 
+				VALUES (".$this->getNrodoc().",'".$this->getRnumeroempleado()."','".$this->getRnumerolicencia()."')";
 		if($base->Iniciar()){
 
 			if($id = $base->devuelveIDInsercion($consultaInsertar)){
-                $this->setIdPersona($id);
+                $this->setRnumeroempleado($id);
 			    $resp=  true;
-
 			}	else {
 					$this->setmensajeoperacion($base->getError());
 					
@@ -133,9 +134,8 @@ class ResponsableV extends Persona{
 	
 	public function modificar(){
 	    $resp =false; 
-	    $base=new BaseDatos();
-		$consultaModifica="UPDATE persona SET apellido='".$this->getApellido()."',nombre='".$this->getNombre()."'
-                           ,email='".$this->getEmail()."',nrodoc=". $this->getNrodoc()." WHERE id".$this->getIdPersona();
+	    $base = new BaseDatos();
+		$consultaModifica = "UPDATE responsable SET rnumerolicencia =" . $this->getRnumerolicencia() ." WHERE rnumDocumento =" . $this->getNrodoc();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
@@ -154,7 +154,7 @@ class ResponsableV extends Persona{
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM persona WHERE nrodoc=".$this->getNrodoc();
+				$consultaBorra="DELETE FROM responsable WHERE rnumDocumento=".$this->getNrodoc();
 				if($base->Ejecutar($consultaBorra)){
 				    $resp=  true;
 				}else{

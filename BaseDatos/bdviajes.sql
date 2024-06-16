@@ -22,7 +22,9 @@ CREATE TABLE responsable (
     rnumerolicencia bigint,
     rnumDocumento bigint,
     PRIMARY KEY (rnumDocumento)
-    FOREIGN KEY (rnumDocumento) REFERENCES 
+    FOREIGN KEY (rnumDocumento) REFERENCES persona (numDocumento) 
+    ON UPDATE CASCADE 
+    ON DELETE CASCADE
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 	
 CREATE TABLE viaje (
