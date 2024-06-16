@@ -1,12 +1,12 @@
 <?php
-include_once 'BaseDatos.php';
-include_once 'Persona.php';
-include_once 'empresa.php';
-include_once 'pasajero.php';
-include_once 'responsableV.php';
-include_once 'viaje.php';
+include_once('BaseDatos.php');
+include_once('Persona.php');
+include_once('empresa.php');
+include_once('pasajero.php');
+include_once('responsableV.php');
+include_once('viaje.php');
 
-function menuPrincipal(){
+function menuPrincipal() {
     echo "\n--------MENU PRINCIPAL--------\n";
     echo "1. Gestionar persona.\n";
     echo "2. Gestionar empresa.\n";
@@ -50,13 +50,3 @@ function menuPersona(){
 
     }
 }
-
-$persona = new Persona();
-
-$persona->cargar(5, 45390428, "Brisa", "Celayes", 299651651);
-
-$pasajero = new Pasajero();
-
-$pasajero->cargar(5, 45390428, "Brisa", "Celayes", 299651651, "ObjViaje");
-
-echo $pasajero;

@@ -9,10 +9,13 @@ class ResponsableV extends Persona{
         $this->rnumerolicencia = "";
     }
 
-    public function cargar($idpersona,$NroD,$Nom,$Ape,$telefono,$rnumeroempleado,$rnumerolicencia){
-    parent::cargar($idpersona,$NroD,$Nom,$Ape,$telefono);
-    $this->setRnumeroempleado($rnumeroempleado);
-    $this->setRnumerolicencia($rnumerolicencia);
+    public function cargar($idpersona, $NroD, $Nom, $Ape, $telefono){
+    parent::cargar($idpersona, $NroD, $Nom, $Ape, $telefono);
+    }
+
+    public function cargarEmpleado($rnumeroempleado,$rnumerolicencia) {
+        $this->setRnumeroempleado($rnumeroempleado);
+        $this->setRnumerolicencia($rnumerolicencia);
     }
 
     public function getRnumeroempleado()

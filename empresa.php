@@ -1,5 +1,5 @@
 <?php
-include_once('../BaseDatos/BaseDatos.php');
+include_once('BaseDatos.php');
 class Empresa{
     private $idempresa;
     private $enombre;
