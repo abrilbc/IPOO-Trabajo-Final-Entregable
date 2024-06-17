@@ -20,8 +20,8 @@ class Viaje {
         $this->coleccionObjPasajeros=[];
     }
 
-    public function cargar($idviaje,$vdestino,$vcantmaxpasajeros,$idempresa,$rnumeroempleado,$vimporte){
-        $this->setIdviaje($idviaje);
+    public function cargar($vdestino,$vcantmaxpasajeros,$idempresa,$rnumeroempleado,$vimporte){
+        // $this->setIdviaje($idviaje);
         $this->setVdestino($vdestino);
         $this->setVcantmaxpasajeros($vcantmaxpasajeros);
         $this->setIdempresa($idempresa);

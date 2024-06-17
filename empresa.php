@@ -12,8 +12,8 @@ class Empresa{
         $this->edireccion="";
     }
 
-    public function cargar($idempresa,$enombre,$edireccion){	
-	    $this->setIdempresa($idempresa);
+    public function cargar($enombre,$edireccion){	
+	    // $this->setIdempresa($idempresa);
         $this->setEnombre($enombre);
         $this->setEdireccion($edireccion);
     }
@@ -137,7 +137,7 @@ class Empresa{
     public function modificar(){
 	    $resp =false; 
 	    $base=new BaseDatos();
-		$consultaModifica="UPDATE empresa SET idempresa='".$this->getIdempresa()."',enombre='".$this->getEnombre()."',edireccion='".$this->getEdireccion()." WHERE idempresa=".$this->getIdempresa();
+		$consultaModifica="UPDATE empresa SET enombre='".$this->getEnombre()."',edireccion='".$this->getEdireccion()."' WHERE idempresa= ".$this->getIdempresa();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
