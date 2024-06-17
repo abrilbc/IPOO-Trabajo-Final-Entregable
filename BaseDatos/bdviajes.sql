@@ -2,12 +2,11 @@ CREATE DATABASE bdviajes;
 
 CREATE TABLE persona (
     idpersona bigint AUTO_INCREMENT,
-    numDocumento int,
+    nrodoc int,
     nombre varchar(150),
     apellido varchar(150),
     telefono int,
-/*  email varchar(150), */
-    PRIMARY KEY (numDocumento)
+    PRIMARY KEY (idpersona)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
 
 CREATE TABLE empresa(
@@ -20,36 +19,34 @@ CREATE TABLE empresa(
 CREATE TABLE responsable (
     rnumeroempleado bigint AUTO_INCREMENT,
     rnumerolicencia bigint,
-    rnumDocumento bigint,
-    PRIMARY KEY (rnumDocumento)
-    FOREIGN KEY (rnumDocumento) REFERENCES persona (numDocumento) 
+    ridpersona bigint,
+    PRIMARY KEY (rnumeroempleado),
+    FOREIGN KEY (ridpersona) REFERENCES persona (idpersona) 
     ON UPDATE CASCADE 
     ON DELETE CASCADE
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 	
 CREATE TABLE viaje (
-    idviaje bigint AUTO_INCREMENT, /*codigo de viaje*/
+    idviaje bigint AUTO_INCREMENT, 
 	vdestino varchar(150),
     vcantmaxpasajeros int,
 	idempresa bigint,
     rnumeroempleado bigint,
     vimporte float,
     PRIMARY KEY (idviaje),
-    FOREIGN KEY (idempresa) REFERENCES empresa (idempresa),
+    FOREIGN KEY (idempresa) REFERENCES empresa (idempresa) ON UPDATE CASCADE
+    ON DELETE CASCADE,
 	FOREIGN KEY (rnumeroempleado) REFERENCES responsable (rnumeroempleado)
     ON UPDATE CASCADE
     ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
 	
 CREATE TABLE pasajero (
-    pdocumento varchar(15),
-    -- pnombre varchar(150), 
-    -- papellido varchar(150), 
-	-- ptelefono int, 
+    pidpersona bigint,
 	idviaje bigint,
-    PRIMARY KEY (pdocumento),
-    FOREIGN KEY (pdocumento) REFERENCES Persona (numDocumento)
-	FOREIGN KEY (idviaje) REFERENCES viaje (idviaje)	
+    PRIMARY KEY (pidpersona),
+    FOREIGN KEY (pidpersona) REFERENCES Persona (idpersona) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (idviaje) REFERENCES viaje (idviaje) ON UPDATE CASCADE ON DELETE CASCADE
     )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
  
   

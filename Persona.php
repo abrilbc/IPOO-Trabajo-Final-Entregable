@@ -16,8 +16,8 @@ class Persona{
 		$this->telefono = "";
 	}
 
-	public function cargar($idpersona,$NroD,$Nom,$Ape,$telefono){	
-	    $this->setIdPersona($idpersona);
+	public function cargar($NroD,$Nom,$Ape,$telefono){	
+	    // $this->setIdPersona($idpersona);
 		$this->setNrodoc($NroD);
 		$this->setNombre($Nom);
 		$this->setApellido($Ape);
@@ -69,15 +69,15 @@ class Persona{
 	 * @param int $dni
 	 * @return true en caso de encontrar los datos, false en caso contrario 
 	 */		
-    public function Buscar($dni){
+    public function Buscar($idpersona){
 		$base=new BaseDatos();
-		$consultaPersona="Select * from persona where nrodoc=".$dni;
+		$consultaPersona="Select * from persona where idpersona=".$idpersona;
 		$resp= false;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPersona)){
 				if($row2=$base->Registro()){
-				    $this->setIdPersona($row2['idpersona']);
-				    $this->setNrodoc($dni);
+				    $this->setIdPersona($idpersona);
+				    $this->setNrodoc($row2['nrodoc']);
 					$this->setNombre($row2['nombre']);
 					$this->setApellido($row2['apellido']);
 					$this->setTelefono($row2['telefono']);
@@ -113,10 +113,10 @@ class Persona{
 					$NroDoc=$row2['nrodoc'];
 					$Nombre=$row2['nombre'];
 					$Apellido=$row2['apellido'];
-					$Email=$row2['email'];
+					$telefono=$row2['telefono'];
 				
 					$perso=new Persona();
-					$perso->cargar($id,$NroDoc,$Nombre,$Apellido,$Email);
+					$perso->cargar($id,$NroDoc,$Nombre,$Apellido,$telefono);
 					array_push($arregloPersona,$perso);
 	
 				}
@@ -138,8 +138,8 @@ class Persona{
 	public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$consultaInsertar="INSERT INTO persona(nrodoc, apellido, nombre,  email) 
-				VALUES (".$this->getNrodoc().",'".$this->getApellido()."','".$this->getNombre()."','".$this->getEmail()."')";
+		$consultaInsertar="INSERT INTO persona(nrodoc, apellido, nombre,  telefono) 
+				VALUES (".$this->getNrodoc().",'".$this->getApellido()."','".$this->getNombre()."','".$this->getTelefono()."')";
 		if($base->Iniciar()){
 
 			if($id = $base->devuelveIDInsercion($consultaInsertar)){
@@ -164,7 +164,7 @@ class Persona{
 	    $resp =false; 
 	    $base=new BaseDatos();
 		$consultaModifica="UPDATE persona SET apellido='".$this->getApellido()."',nombre='".$this->getNombre()."'
-                           ,email='".$this->getEmail()."',nrodoc=". $this->getNrodoc()." WHERE id".$this->getIdPersona();
+                           ,telefono='".$this->getTelefono()."',nrodoc=". $this->getNrodoc()." WHERE idpersona=".$this->getIdPersona();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
@@ -183,7 +183,7 @@ class Persona{
 		$base=new BaseDatos();
 		$resp=false;
 		if($base->Iniciar()){
-				$consultaBorra="DELETE FROM persona WHERE nrodoc=".$this->getNrodoc();
+				$consultaBorra="DELETE FROM persona WHERE idpersona=".$this->getIdpersona();
 				if($base->Ejecutar($consultaBorra)){
 				    $resp=  true;
 				}else{
