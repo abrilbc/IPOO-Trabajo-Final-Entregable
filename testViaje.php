@@ -6,6 +6,8 @@ include_once('pasajero.php');
 include_once('responsableV.php');
 include_once('viaje.php');
 
+
+
 function menuPrincipal() {
     echo "\n--------MENU PRINCIPAL--------\n";
     echo "1. Gestionar persona.\n";
@@ -19,9 +21,9 @@ function menuPrincipal() {
     
     case '1': menuPersona();
 
-    case '2': 
+    case '2': menuEmpresa();
 
-    case '3': 
+    case '3': menuViaje();
     }
 }
 

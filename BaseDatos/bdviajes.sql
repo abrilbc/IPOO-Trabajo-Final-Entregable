@@ -43,9 +43,9 @@ CREATE TABLE viaje (
 	
 CREATE TABLE pasajero (
     pdocumento varchar(15),
-    pnombre varchar(150), 
-    papellido varchar(150), 
-	ptelefono int, 
+    -- pnombre varchar(150), 
+    -- papellido varchar(150), 
+	-- ptelefono int, 
 	idviaje bigint,
     PRIMARY KEY (pdocumento),
     FOREIGN KEY (pdocumento) REFERENCES Persona (numDocumento)
