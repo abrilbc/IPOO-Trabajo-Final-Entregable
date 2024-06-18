@@ -11,80 +11,116 @@ include_once('viaje.php');
 function menuPrincipal() {
     
     echo "\n--------MENU PRINCIPAL--------\n";
-    echo "1. GESTIONAR EMPRESA.\n";
-    echo "2. GESTIONAR VIAJE.\n";
+    echo "1. Gestionar EMPRESA.\n";
+    echo "2. Gestionar VIAJE.\n";
     echo "3. Salir \n";
     echo "ELECCIÓN: ";
     $opcion=trim(fgets(STDIN));
 
     switch($opcion){
     
-    case '1': gestion();
+    case '1': gestionEmpresa();
 
-    case '2': gestion();
+    case '2':
 
     }
 }
 
-
-function gestion(){
-echo "1. AGREGAR: \n";
-echo "2. MODIFICAR: \n";
-echo "3. ELIMINAR: \n";
-echo "4. SALIR\n";
+function gestionEmpresa(){
+echo "\nElija una de las siguientes opciones (1-5): \n";
+echo "1. Agregar Empresa \n";
+echo "2. Modificar Empresa \n";
+echo "3. Eliminar Empresa \n";
+echo "4. Listar Empresas existentes\n";
+echo "5. Salir\n";
+echo "ELECCION: ";
 $opcion=trim(fgets(STDIN));
 switch($opcion){
 
     case 1:  
-        echo "INGRESE NOMBRE: \n";
+        echo "\nIngrese NOMBRE de la nueva empresa: ";
         $nombre= trim(fgets(STDIN));
-        echo "INGRESE DIRECCION: \n";
+        echo "Ingrese DIRECCION de la nueva empresa: ";
         $direccion= trim(fgets(STDIN));
-        $obj_Empresa= new Empresa;
+        $obj_Empresa= new Empresa();
         $obj_Empresa->cargar($nombre,$direccion);
-        $obj_Empresa->insertar();
+        $operacion = $obj_Empresa->insertar();
+        if ($operacion) {
+            echo "Empresa agregada exitosamente.";
+            echo $obj_Empresa->__toString();
+        } else {
+            echo $obj_Empresa->getmensajeoperacion();
+        }
         break;
-
     case 2:
-        echo "INGRESE EL ID DE LA EMPRESA A MODIFICAR: \n";
+        $obj_Empresa = new Empresa;
+        $visualizar = $obj_Empresa->mostrarEmpresas();
+        echo $visualizar;
+        echo "\nIngrese el ID de la empresa a modificar: ";
         $idEmpresa=trim(fgets(STDIN));
-        echo "QUE DESEA MODIFICAR?\n 1.NOMBRE\n 2.DIRECCION \n";
+        echo "\n¿Qué desea modificar? \n 1.NOMBRE \n 2.DIRECCION";
+        echo "\nELECCION: ";
         $opcion=trim(fgets(STDIN));
+
+        $operacion = null;
         if($opcion==1){
-            echo "NUEVO NOMBRE: \n";
+            echo "NUEVO NOMBRE: ";
             $nombreNuevo=trim(fgets(STDIN));
-            $obj_Empresa=new Empresa;
+            $obj_Empresa=new Empresa();
             $obj_Empresa->Buscar($idEmpresa);
             $obj_Empresa->setEnombre($nombreNuevo);
-            $obj_Empresa->modificar();
-        }
-        elseif($opcion==2){
-            echo "NUEVA DIRECCION: \n";
+            $operacion = $obj_Empresa->modificar();
+        } elseif($opcion==2) {
+            echo "NUEVA DIRECCION: ";
             $direccionNueva=trim(fgets(STDIN));
-            $obj_Empresa=new Empresa;
+            $obj_Empresa=new Empresa();
             $obj_Empresa->Buscar($idEmpresa);
             $obj_Empresa->setEdireccion($direccionNueva);
-            $obj_Empresa->modificar();
+            $operacion = $obj_Empresa->modificar();
         }
         else{
             echo "CLAVE INCORRECTA. \n";
         }
+        if ($operacion && $operacion != null) {
+            echo "Datos cambiados existosamente.";
+            echo $obj_Empresa->__toString();
+        }
         break;
          
     case 3: 
-        
-        echo "INGRESE EL ID DE LA EMPRESA QUE DESEA ELIMINAR: \n";
+        $obj_Empresa = new Empresa;
+        $visualizar = $obj_Empresa->mostrarEmpresas();
+        echo $visualizar;
+        echo "\nIngrese el ID de la empresa que desea ELIMINAR: ";
         $idEliminar= trim(fgets(STDIN));
-        echo "¿ESTA SEGURO DE SU OPERACION? \n 1.SI | 2.NO \n";
+        $obj_Empresa->Buscar($idEliminar);
+        echo "----> ¿Está segurx de querer eliminar la empresa " . $obj_Empresa->getEnombre() . "? (SI/NO)\n";
+        echo "DECISION: ";
         $decision=trim(fgets(STDIN));
 
-        if($decision==1){
-            $obj_Empresa= new Empresa;
-            $obj_Empresa->Buscar($idEliminar);
-            $obj_Empresa->eliminar();
+        if($decision == "si" || $decision == "SI" || $decision == "s" || $decision == "S"){
+            $operacion = $obj_Empresa->eliminar();
+            if ($operacion) {
+                echo "Empresa eliminada exitosamente.";
+                echo $visualizar;
+            }
+        } elseif ($decision == "no" || $decision == "NO" || $decision == "n" || $decision == "N") {
+            echo "La empresa " . $obj_Empresa->getEnombre() . " NO se ha eliminado";
         }
-    case 4: ;
+        break;
+    case 4:
+        $obj_Empresa = new Empresa();
+        $visualizar = $obj_Empresa->mostrarEmpresas();
+        echo $visualizar;
+        break;
+    case 5: 
+        echo "------> ¡Hasta luego!";
+        break;
+    }
 }
+
+function gestionViaje() {
+    
 }
 
 function menuPersona(){
@@ -122,4 +158,5 @@ $obj_Persona= new Persona;
 
     // $obj_Persona->cargar(12345,"Martin","Traga Leche",4213452);
     
+
   menuPrincipal();

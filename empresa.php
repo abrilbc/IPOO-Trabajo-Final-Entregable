@@ -53,6 +53,21 @@ class Empresa{
 		$this->mensajeoperacion=$mensajeoperacion;
 	}
 
+	function mostrarEmpresas() {
+		$obj_empresa = new Empresa();
+		$coleccionEmpresas = $obj_empresa->listar();
+		$cadena = "";
+		if (!empty($coleccionEmpresas)) {
+			$cadena .= "Actualmente existen " . count($coleccionEmpresas) . " empresas: ";
+			foreach ($coleccionEmpresas as $empresa) {  
+				$cadena .= $empresa->__toString();
+			}
+		} else {
+			$cadena .= "No hay empresas existentes";
+		}
+		return $cadena;
+	}
+
     public function Buscar($idempresa){
 		$base=new BaseDatos();
 		$consultaEmpresa="Select * from empresa where idempresa=".$idempresa;
@@ -94,12 +109,13 @@ class Empresa{
 					$edireccion=$row2['edireccion'];
 				
 					$empre=new Empresa();
-					$empre->cargar($idempresa,$enombre,$edireccion);
-					array_push($arregloEmpresa,$empre);
+					//Cambié porque idempresa no entra en cargar y estaba dando error
+					$empre->setIdempresa($idempresa);
+					$empre->cargar($enombre, $edireccion);
+					array_push($arregloEmpresa, $empre);
 	
 				}
 				
-			
 		 	}	else {
 		 			$this->setmensajeoperacion($base->getError());
 		 		
@@ -172,7 +188,7 @@ class Empresa{
 
    public function __toString(){
         $cadena="\n--------EMPRESA--------\n" ;
-        $cadena.= "NUMERO: ".$this->getIdempresa()."\n";
+        $cadena.= "NUMERO ID: ".$this->getIdempresa()."\n";
         $cadena.= "NOMBRE: ".$this->getEnombre()."\n";
         $cadena.= "DIRECCION: ".$this->getEdireccion()."\n";
 
