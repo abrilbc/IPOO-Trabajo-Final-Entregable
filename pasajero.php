@@ -95,22 +95,18 @@ class Pasajero extends Persona{
 		$resp = false;
 		if(parent::insertar()){
 			$consultaInsertar = "INSERT INTO pasajero(pidpersona,idviaje) 
-				VALUES (".parent::getIdPersona(). "," . $this->getObjViaje() . "')";
+				VALUES (". parent::getIdPersona() . "," . $this->getObjViaje() . ")";
 		if($base->Iniciar()){
 			if($id = $base->devuelveIDInsercion($consultaInsertar)){
-
-                // $this->setIdPersona($id);
+                $this->setIdPersona($id);
 			    $resp=  true;
 			} else {
 					$this->setmensajeoperacion($base->getError());
 			}
-
 		} else {
 				$this->setmensajeoperacion($base->getError());
-			
+			}
 		}
-		}
-		
 		return $resp;
 	}
 	

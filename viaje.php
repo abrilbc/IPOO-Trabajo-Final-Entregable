@@ -164,7 +164,7 @@ class Viaje {
 
     public function Buscar($idviaje){
 		$base=new BaseDatos();
-		$consultaViaje="Select * from viaje where idviaje=".$idviaje;
+		$consultaViaje="Select * from viaje where idviaje=" . $idviaje;
 		$resp= false;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaViaje)){
@@ -195,7 +195,7 @@ class Viaje {
 		$cadena = "";
 		if (!empty($coleccionViajes)) {
 			$cadena .= "Actualmente existen " . count($coleccionViajes) . " viajes: ";
-			foreach ($coleccionViajes as $empresa) {  
+			foreach ($coleccionViajes as $empresa) {
 				$cadena .= $empresa->__toString();
 			}
 		} else {
@@ -205,7 +205,7 @@ class Viaje {
 	}
 
     public function listar($condicion=""){
-	    $arregloPasajero = null;
+	    $arregloViaje = null;
 		$base=new BaseDatos();
 		$consultaViaje="Select * from viaje ";
 		if ($condicion!=""){
@@ -214,7 +214,7 @@ class Viaje {
 		$consultaViaje.=" order by idviaje ";
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaViaje)){				
-				$arregloPasajero= array();
+				$arregloViaje = array();
 				while($row2=$base->Registro()){
 				    $idviaje=$row2['idviaje'];
 					$vdestino=$row2['vdestino'];
@@ -224,8 +224,9 @@ class Viaje {
                     $vimporte=$row2['vimporte'];
 				
 					$viaje=new Viaje();
-					$viaje->cargar($idviaje,$vdestino,$vcantmaxpasajeros,$idempresa,$rnumeroempleado,$vimporte);
-					array_push($arregloViaje,$viaje);
+					$viaje->cargar($vdestino,$vcantmaxpasajeros,$idempresa,$rnumeroempleado,$vimporte);
+                    $viaje->setIdviaje($idviaje);
+					array_push($arregloViaje, $viaje);
 	
 				}
 			
@@ -244,7 +245,7 @@ class Viaje {
 		$base=new BaseDatos();
 		$resp= false;
 		$consultaInsertar="INSERT INTO viaje(idviaje, vdestino, vcantmaxpasajeros,  idempresa, rnumeroempleado, vimporte) 
-				VALUES (".$this->getIdviaje().",'".$this->getVdestino()."','".$this->getVcantmaxpasajeros()."','".$this->getIdempresa()."','".$this->getRnumeroempleado()."','".$this->getVimporte()."')";
+				VALUES (".$this->getIdviaje().",'".$this->getVdestino()."',".$this->getVcantmaxpasajeros().",".$this->getIdempresa().",".$this->getRnumeroempleado().",".$this->getVimporte().")";
 		if($base->Iniciar()){
 
 			if($idviaje = $base->devuelveIDInsercion($consultaInsertar)){
