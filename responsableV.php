@@ -13,8 +13,8 @@ class ResponsableV extends Persona{
     parent::cargar($NroD, $Nom, $Ape, $telefono);
     }
 
-    public function cargarEmpleado($rnumeroempleado,$rnumerolicencia) {
-        $this->setRnumeroempleado($rnumeroempleado);
+    public function cargarEmpleado($rnumerolicencia) {
+        // $this->setRnumeroempleado($rnumeroempleado);
         $this->setRnumerolicencia($rnumerolicencia);
     }
 
@@ -38,14 +38,16 @@ class ResponsableV extends Persona{
 	function mostrarResponsable() {
 		$obj_persona = new Persona();
 		$obj_responsable = new ResponsableV();
-		$obj_persona->Buscar($obj_responsable->getIdPersona());
+		
 		$coleccionResponsable = $obj_responsable->listar();
 		$cadena = "";
 		if (!empty($coleccionResponsable)) {
 			$cadena .= "Actualmente existen " . count($coleccionResponsable) . " responsables: ";
 			foreach ($coleccionResponsable as $responsable) {  
 				$idpersona = $responsable->getIdPersona();
-				$cadena .= $responsable->__toString();
+				$obj_persona ->Buscar($idpersona);
+				$cadena.="\nNombre: ".$obj_persona->getNombre()."\n Apellido: ".$obj_persona->getApellido();
+				// $cadena .= $responsable->__toString();
 			}
 		} else {
 			$cadena .= "No hay responsables existentes";
@@ -136,7 +138,7 @@ class ResponsableV extends Persona{
 		$resp = false;
 		if(parent::insertar()){
 				$consultaInsertar = "INSERT INTO responsable(ridpersona, rnumeroempleado, rnumerolicencia) 
-					VALUES (".parent::getIdPersona().",".$this->getRnumeroempleado()."','".$this->getRnumerolicencia()."')";
+					VALUES (".parent::getIdPersona().",".$this->getRnumeroempleado().",".$this->getRnumerolicencia().")";
 			if($base->Iniciar()){
 				if($id = $base->devuelveIDInsercion($consultaInsertar)){
 					$this->setRnumeroempleado($id);

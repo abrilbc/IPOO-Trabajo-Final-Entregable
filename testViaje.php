@@ -21,7 +21,7 @@ function menuPrincipal() {
     
     case '1': gestionEmpresa();
 
-    case '2':
+    case '2': gestionViaje();
 
     }
 }
@@ -125,7 +125,8 @@ function gestionViaje() {
     echo "2. Modificar Viaje \n";
     echo "3. Eliminar Viaje \n";
     echo "4. Listar Viajes Existentes\n";
-    echo "5. Salir\n";
+    echo "5. Gestionar responsable\n";
+    echo "6. Salir\n";
     echo "ELECCION: ";
     $opcion=trim(fgets(STDIN));
     switch ($opcion) {
@@ -231,7 +232,9 @@ function gestionViaje() {
             $visualizar = $viaje->mostrarViajes();
             echo $visualizar;
             break;
-    }
+        case 5: gestionarResponsable();
+        break;  
+        }
 }
 
 function gestionarResponsable(){
@@ -253,13 +256,14 @@ function gestionarResponsable(){
         $telefono = trim(fgets(STDIN));
         echo "\nIngrese el numero de licencia: ";
         $numLicencia = trim(fgets(STDIN));
+
         $persona = new Persona();
         $persona->cargar($dni, $nombre, $apellido,$telefono);
         $persona->insertar();
         $idpersona = $persona->getIdPersona();
         $responsable=new ResponsableV();
         $responsable->cargar($dni, $nombre, $apellido, $telefono);
-        $responsable->cargarEmpleado($idpersona, $numLicencia);
+        $responsable->cargarEmpleado($numLicencia);
         $responsable->insertar();
     break;
     
@@ -279,8 +283,8 @@ function gestionarResponsable(){
             $idresponsable = $obj_responsable->getIdPersona();
             $obj_persona = new Persona();
             $obj_persona->Buscar($idresponsable);
-            $obj_Persona->setnombre($nombreNuevo);
-            $operacion = $obj_Empresa->modificar();
+            $obj_persona->setnombre($nombreNuevo);
+            $operacion = $obj_persona->modificar();
             break;
         case 2:
             echo "NUEVO APELLIDO: ";
@@ -290,8 +294,8 @@ function gestionarResponsable(){
             $idresponsable = $obj_responsable->getIdPersona();
             $obj_persona = new Persona();
             $obj_persona->Buscar($idresponsable);
-            $obj_Persona->setapellido($apellidoNuevo);
-            $operacion = $obj_Empresa->modificar();
+            $obj_persona->setapellido($apellidoNuevo);
+            $operacion = $obj_persona->modificar();
             break;
         case 3:
             echo "NUEVO DNI: ";
@@ -301,8 +305,8 @@ function gestionarResponsable(){
             $idresponsable = $obj_responsable->getIdPersona();
             $obj_persona = new Persona();
             $obj_persona->Buscar($idresponsable);
-            $obj_Persona->setapellido($dniNuevo);
-            $operacion = $obj_Empresa->modificar();
+            $obj_persona->setNrodoc($dniNuevo);
+            $operacion = $obj_persona->modificar();
             break;
         case 4:
             echo "NUEVO TELEFONO: ";
@@ -312,8 +316,8 @@ function gestionarResponsable(){
             $idresponsable = $obj_responsable->getIdPersona();
             $obj_persona = new Persona();
             $obj_persona->Buscar($idresponsable);
-            $obj_Persona->setapellido($telefonoNuevo);
-            $operacion = $obj_Empresa->modificar();
+            $obj_persona->setTelefono($telefonoNuevo);
+            $operacion = $obj_persona->modificar();
             break;
         case 5:
             echo "NUEVO NUMERO DE LICENCIA: ";
@@ -321,98 +325,97 @@ function gestionarResponsable(){
             $obj_responsable=new ResponsableV();
             $obj_responsable->Buscar($nroEmpleado);
             $idresponsable = $obj_responsable->getIdPersona();
-            $obj_persona = new Persona();
-            $obj_persona->Buscar($idresponsable);
-            $obj_Persona->setapellido($nroLicenciaNuevo);
-            $operacion = $obj_Empresa->modificar();
+            $obj_responsable->setRnumerolicencia($nroLicenciaNuevo);
+            $operacion = $obj_responsable->modificar();
             break;
         }
         if ($operacion && $operacion != null) {
             echo "Datos cambiados existosamente.";
-            echo $obj_Empresa->__toString();
+            // echo $obj_persona->__toString();
         }
+        break;
     case 3:
-            $responsable = new ResponsableV();
-            $visualizar = $viaje->mostrarViajes();
-            echo $visualizar;
+            // $responsable = new ResponsableV();
+            // $visualizar = $responsable->mostrarResponsable();
+            // echo $visualizar;
             echo "\nIngrese el numero de empleado que desea ELIMINAR: ";
             $nroEliminar= trim(fgets(STDIN));
-            $obj_persona= new Persona();
+            // $obj_persona= new Persona();
             $obj_responsable = new ResponsableV();
             $obj_responsable->Buscar($nroEliminar);
-            $idresponsable = $obj_responsable->getIdPersona();
-            echo "----> ¿Está segurx de querer eliminar al responsable " . $obj->getIdviaje() . "? (SI/NO)\n";
+            
+            echo "----> ¿Está segurx de querer eliminar al responsable " . $obj_responsable->getRnumeroempleado() . "? (SI/NO)\n";
             echo "DECISION: ";
             $decision=trim(fgets(STDIN));
 
             if($decision == "si" || $decision == "SI" || $decision == "s" || $decision == "S"){
-                $operacion = $viaje->eliminar();
+                $operacion = $obj_responsable->eliminar();
                 if ($operacion) {
-                    echo "Viaje eliminado exitosamente.";
+                    echo "Responsable eliminado exitosamente.";
                 } else {
                     echo "Hubo un problema con la eliminación.";
                 }
             } elseif ($decision == "no" || $decision == "NO" || $decision == "n" || $decision == "N") {
-                echo "El viaje " . $viaje->getIdviaje() . " NO se ha eliminado";
+                echo "El responsable " . $obj_responsable->getRnumeroempleado() . " NO se ha eliminado";
             }
             break;
 }
 }
 
-function gestionPersona(){
-    echo "1. Agregar responsable\n";
-    echo "2. Gestionar pasajero\n";
-    echo "3. Salir \n";
-    echo "ELECCIÓN: ";
-    $opcion = trim(fgets(STDIN));
-    switch($opcion) {
-        case 1: gestionResponsable();
-            echo "\nIngrese el nombre del responsable: ";
-            $nombre = trim(fgets(STDIN));
-            echo "\nIngrese el apellido del responsable: ";
-            $apellido = trim(fgets(STDIN));
-            echo "\nIngrese el DNI del responsable: ";
-            $dni = trim(fgets(STDIN));
-            echo "\nIngrese el telefono del responsable: ";
-            $telefono = trim(fgets(STDIN));
-            echo "\nIngrese el numero de licencia: ";
-            $numLicencia = trim(fgets(STDIN));
-            $persona = new Persona();
-            $persona->cargar($dni, $nombre, $apellido,$telefono);
-            $persona->insertar();
-            $idpersona = $persona->getIdPersona();
-            $responsable=new ResponsableV();
-            $responsable->cargar($dni, $nombre, $apellido, $telefono);
-            $responsable->cargarEmpleado($idpersona, $numLicencia);
-            $responsable->insertar();
-        break;
+// function gestionPersona(){
+//     echo "1. Agregar responsable\n";
+//     echo "2. Gestionar pasajero\n";
+//     echo "3. Salir \n";
+//     echo "ELECCIÓN: ";
+//     $opcion = trim(fgets(STDIN));
+//     switch($opcion) {
+//         case 1: gestionResponsable();
+//             echo "\nIngrese el nombre del responsable: ";
+//             $nombre = trim(fgets(STDIN));
+//             echo "\nIngrese el apellido del responsable: ";
+//             $apellido = trim(fgets(STDIN));
+//             echo "\nIngrese el DNI del responsable: ";
+//             $dni = trim(fgets(STDIN));
+//             echo "\nIngrese el telefono del responsable: ";
+//             $telefono = trim(fgets(STDIN));
+//             echo "\nIngrese el numero de licencia: ";
+//             $numLicencia = trim(fgets(STDIN));
+//             $persona = new Persona();
+//             $persona->cargar($dni, $nombre, $apellido,$telefono);
+//             $persona->insertar();
+//             $idpersona = $persona->getIdPersona();
+//             $responsable=new ResponsableV();
+//             $responsable->cargar($dni, $nombre, $apellido, $telefono);
+//             $responsable->cargarEmpleado($idpersona, $numLicencia);
+//             $responsable->insertar();
+//         break;
         
-        case 2: gestionPasajero();
-            $viaje = new Viaje();
-            $visualizar = $viaje->mostrarViajes();
-            echo "\nIngrese el nombre del pasajero: ";
-            $nombre = trim(fgets(STDIN));
-            echo "\nIngrese el apellido del pasajero: ";
-            $apellido = trim(fgets(STDIN));
-            echo "\nIngrese el DNI del pasajero: ";
-            $dni = trim(fgets(STDIN));
-            echo "\nIngrese el telefono del pasajero: ";
-            $telefono = trim(fgets(STDIN));
-            echo "\nIngrese el ID del viaje que desea realizar: ";
-            echo $visualizar;
-            echo "ELECCION: ";
-            $idviaje = trim(fgets(STDIN));
-            $viajeElegido = $viaje->Buscar($idviaje);
-            $persona = new Persona();
-            $persona->cargar($nombre, $apellido, $dni, $telefono);
-            $persona->insertar();
-            $pasajero = new Pasajero();
-            $pasajero->cargar($nombre, $apellido, $dni, $telefono);
-            $pasajero->cargarViaje($viajeElegido);
-            $pasajero->insertar();
-        break;
-    }
-}
+//         case 2: gestionPasajero();
+//             $viaje = new Viaje();
+//             $visualizar = $viaje->mostrarViajes();
+//             echo "\nIngrese el nombre del pasajero: ";
+//             $nombre = trim(fgets(STDIN));
+//             echo "\nIngrese el apellido del pasajero: ";
+//             $apellido = trim(fgets(STDIN));
+//             echo "\nIngrese el DNI del pasajero: ";
+//             $dni = trim(fgets(STDIN));
+//             echo "\nIngrese el telefono del pasajero: ";
+//             $telefono = trim(fgets(STDIN));
+//             echo "\nIngrese el ID del viaje que desea realizar: ";
+//             echo $visualizar;
+//             echo "ELECCION: ";
+//             $idviaje = trim(fgets(STDIN));
+//             $viajeElegido = $viaje->Buscar($idviaje);
+//             $persona = new Persona();
+//             $persona->cargar($nombre, $apellido, $dni, $telefono);
+//             $persona->insertar();
+//             $pasajero = new Pasajero();
+//             $pasajero->cargar($nombre, $apellido, $dni, $telefono);
+//             $pasajero->cargarViaje($viajeElegido);
+//             $pasajero->insertar();
+//         break;
+//     }
+// }
 
 function agregar($objeto){
     $respuesta = $objeto->insertar();
