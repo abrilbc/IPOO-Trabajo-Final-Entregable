@@ -58,7 +58,7 @@ class Empresa{
 		$coleccionEmpresas = $obj_empresa->listar();
 		$cadena = "";
 		if (!empty($coleccionEmpresas)) {
-			$cadena .= "Actualmente existen " . count($coleccionEmpresas) . " empresas: ";
+			$cadena .= "Actualmente existen " . count($coleccionEmpresas) . " empresa(s): ";
 			foreach ($coleccionEmpresas as $empresa) {  
 				$cadena .= $empresa->__toString();
 			}

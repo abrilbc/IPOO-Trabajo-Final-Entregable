@@ -194,7 +194,7 @@ class Viaje {
 		$coleccionViajes = $obj_viaje->listar();
 		$cadena = "";
 		if (!empty($coleccionViajes)) {
-			$cadena .= "Actualmente existen " . count($coleccionViajes) . " viajes: ";
+			$cadena .= "Actualmente existen " . count($coleccionViajes) . " viaje(s): ";
 			foreach ($coleccionViajes as $empresa) {
 				$cadena .= $empresa->__toString();
 			}

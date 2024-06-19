@@ -198,7 +198,7 @@ class Persona{
 	}
 
 	public function __toString(){
-	    return "\nID Persona: " . $this->getIdPersona() . "\nNombre: ".$this->getNombre(). "\n Apellido:".$this->getApellido()."\n DNI: ".$this->getNrodoc()."\n";
+	    return "\nID Persona: " . $this->getIdPersona() . "\nNombre: ".$this->getNombre(). "\n Apellido:".$this->getApellido()."\n DNI: ".$this->getNrodoc()."\n" . "TELEFONO: " . $this->getTelefono()."\n";
 			
 	}
 }

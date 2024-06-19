@@ -53,6 +53,20 @@ class Pasajero extends Persona{
 		 return $resp;
 	}	
     
+	function mostrarPasajero() {
+		$obj_pasajero = new Pasajero();
+		$coleccionPasajero = $obj_pasajero->listar();
+		$cadena = "";
+		if (!empty($coleccionPasajero)) {
+			$cadena .= "Actualmente existen " . count($coleccionPasajero) . " pasajero(s): ";
+			foreach ($coleccionPasajero as $pasajero) {
+				$cadena .= $pasajero->__toString();
+			}
+		} else {
+			$cadena .= "No hay pasajeros existentes";
+		}
+		return $cadena;
+	}
 
 	public function listar($condicion=""){
 	    $arregloPersona = null;
@@ -61,7 +75,7 @@ class Pasajero extends Persona{
 		if ($condicion != ""){
 		    $consultaPasajeros = $consultaPasajeros . ' where ' . $condicion;
 		}
-		$consultaPasajeros .= " order by papellido ";
+		$consultaPasajeros .= " order by pidpersona ";
 		//echo $consultaPasajeros;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPasajeros)){				
@@ -95,7 +109,7 @@ class Pasajero extends Persona{
 		$resp = false;
 		if(parent::insertar()){
 			$consultaInsertar = "INSERT INTO pasajero(pidpersona,idviaje) 
-				VALUES (". parent::getIdPersona() . "," . $this->getObjViaje() . ")";
+				VALUES (". parent::getIdPersona() . "," . $this->getObjViaje()->getIdviaje() . ")";
 		if($base->Iniciar()){
 			if($id = $base->devuelveIDInsercion($consultaInsertar)){
 			    $resp = true;

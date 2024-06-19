@@ -36,13 +36,11 @@ class ResponsableV extends Persona{
     }
 
 	function mostrarResponsable() {
-		$obj_persona = new Persona();
 		$obj_responsable = new ResponsableV();
-		
 		$coleccionResponsable = $obj_responsable->listar();
 		$cadena = "";
 		if (!empty($coleccionResponsable)) {
-			$cadena .= "Actualmente existen " . count($coleccionResponsable) . " responsables: ";
+			$cadena .= "Actualmente existen " . count($coleccionResponsable) . " responsable(s): ";
 			foreach ($coleccionResponsable as $responsable) {
 				$cadena .= $responsable->__toString();
 			}
@@ -64,11 +62,6 @@ class ResponsableV extends Persona{
 			if($base->Ejecutar($consultaResponsable)){
 				if($row2=$base->Registro()){
 					parent::Buscar($row2['ridpersona']);
-				    // $this->setIdPersona($ridpersona);
-				    // $this->setNrodoc($row2['rnrodoc']);
-					// $this->setNombre($row2['rnombre']);
-					// $this->setApellido($row2['rapellido']);
-					// $this->setTelefono($row2['rtelefono']);
                     $this->setRnumeroempleado($row2['rnumeroempleado']);
                     $this->setRnumerolicencia($row2['rnumerolicencia']);
 					$resp= true;
@@ -98,21 +91,10 @@ class ResponsableV extends Persona{
 			if($base->Ejecutar($consultaResponsable)){				
 				$arregloResponsable = array();
 				while($row2 = $base->Registro()){
-				    $id=$row2['idpersona'];
-
-					// $NroDoc=$row2['nrodoc'];
-					// $Nombre=$row2['nombre'];
-					// $Apellido=$row2['apellido'];
-					// $telefono=$row2['telefono'];
-                    // $nroEmpleado = $row2['rnumeroempleado'];
-                    // $nroLicencia = $row2['rnumerolicencia'];
-
+				    $nro_empleado = $row2['rnumeroempleado'];
 					$respo = new ResponsableV();
-					$respo->Buscar($id);
-
-					// $respo->cargar($id,$NroDoc,$Nombre,$Apellido,$telefono);
-                    // $respo->cargarEmpleado($nroEmpleado, $nroLicencia);
-					array_push($arregloResponsable,$respo);
+					$respo->Buscar($nro_empleado);
+					array_push($arregloResponsable, $respo);
 				}
 				
 			
@@ -195,10 +177,9 @@ class ResponsableV extends Persona{
     
     public function __toString() {
         $cadena = "\n--------RESPONSABLE--------\n";
-        $cadena .= parent::__toString();
         $cadena .= "\nNUMERO EMPLEADO: " . $this->getRnumeroempleado();
         $cadena .= "\nNUMERO DE LICENCIA: " . $this->getRnumeroLicencia();
-
+		$cadena .= parent::__toString() . "\n";
         return $cadena;
     }
 }
