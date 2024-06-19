@@ -41,13 +41,14 @@ class ResponsableV extends Persona{
 		$obj_persona->Buscar($obj_responsable->getIdPersona());
 		$coleccionResponsable = $obj_responsable->listar();
 		$cadena = "";
-		if (!empty($coleccionViajes)) {
-			$cadena .= "Actualmente existen " . count($coleccionViajes) . " viajes: ";
-			foreach ($coleccionViajes as $empresa) {  
-				$cadena .= $empresa->__toString();
+		if (!empty($coleccionResponsable)) {
+			$cadena .= "Actualmente existen " . count($coleccionResponsable) . " responsables: ";
+			foreach ($coleccionResponsable as $responsable) {  
+				$idpersona = $responsable->getIdPersona();
+				$cadena .= $responsable->__toString();
 			}
 		} else {
-			$cadena .= "No hay viajes existentes";
+			$cadena .= "No hay responsables existentes";
 		}
 		return $cadena;
 	}
