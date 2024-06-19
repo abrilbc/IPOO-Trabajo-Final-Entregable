@@ -112,36 +112,16 @@ class Viaje {
         $this->coleccionObjPasajeros = $coleccionObjPasajeros;
     }
 
-    public function mostrarColeccion($coleccion){
+    public function mostrarColeccion($idviaje){
+        $pasajero = new Pasajero();
+        $coleccionPasajeros = $pasajero->pasajerosEnViaje($idviaje);
         $cadena = "";
-        foreach ($coleccion as $i => $objeto){
-            $cadena .= "\n-------> PASAJERO " . $i . ": ";
+        foreach ($coleccionPasajeros as $i => $objeto){
+            $cadena .= "\n-------> PASAJERO " . $i+1 . ": ";
             $cadena .= "\n".$objeto;
         }
         return $cadena;
     }
-
-    public function hayPasajesDisponible(){
-        $valor = false;
-        if (count($this->getColeccionObjPasajeros()) < $this->getVcantmaxpasajeros()){
-            $valor = true;
-        }
-        return $valor;
-    }
-
-    // public function modificarPasajero($documento, $modificarNombre, $modificarApellido, $modificarTelefono) {
-    //     $coleccionObjPasajeros = $this->getColeccionObjPasajeros();
-    //     $encontrado = false; 
-    //     foreach ($coleccionObjPasajeros as $pasajero) {
-    //         if ($pasajero->getNrodoc() == $documento) {
-    //             $pasajero->setNombre($modificarNombre);
-    //             $pasajero->setApellido($modificarApellido);
-    //             $pasajero->setTelefono($modificarTelefono);
-    //             $encontrado = true;
-    //         }
-    //     }
-    //     return $encontrado;
-    // } 
 
     public function agregarPasajero($nuevoPasajero) {
         $coleccionObjPasajeros = $this->getColeccionObjPasajeros();
@@ -169,6 +149,7 @@ class Viaje {
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaViaje)){
 				if($row2=$base->Registro()){
+
 				    $this->setIdviaje($idviaje);
 				    $this->setVdestino($row2['vdestino']);
 					$this->setVcantmaxpasajeros($row2['vcantmaxpasajeros']);
@@ -188,6 +169,9 @@ class Viaje {
 		 }		
 		 return $resp;
 	}	
+
+    public function BuscarPasajeros() {
+    }
 
     function mostrarViajes() {
 		$obj_viaje = new Viaje();
@@ -308,7 +292,7 @@ class Viaje {
         $cadena.= "NUMERO EMPRESA: ".$this->getIdempresa()."\n";
         $cadena.= "NUMERO EMPLEADO RESPONSABLE: ".$this->getRnumeroempleado()."\n";
         $cadena.= "IMPORTE: ".$this->getVimporte()."\n";
-        $cadena.= $this->mostrarColeccion($this->getColeccionObjPasajeros())."\n";
+        $cadena.= $this->mostrarColeccion($this->getIdviaje())."\n";
         
         return $cadena;
     }

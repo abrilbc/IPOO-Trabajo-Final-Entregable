@@ -52,6 +52,38 @@ class Pasajero extends Persona{
 		 }		
 		 return $resp;
 	}	
+
+	public function pasajerosEnViaje($idViaje) {
+		$base = new BaseDatos();
+		$consultaPasajero = "Select * from pasajero where idviaje=" . $idViaje;
+		$resp= false;
+		if($base->Iniciar()){
+			if($base->Ejecutar($consultaPasajero)){
+				$arregloPasajero = array();
+				while($row2 = $base->Registro()){
+					$objViaje = new Viaje();
+					$objViaje->Buscar($idViaje);
+					$id=$row2['pidpersona'];
+					//Crea el objeto y le settea los valores
+					$pasajeroViaje = new Pasajero();
+					$pasajeroViaje->Buscar($id);
+
+
+					array_push($arregloPasajero, $pasajeroViaje);
+					$this->setObjViaje($objViaje->getIdviaje());
+					$resp = true;
+				}				
+			
+		 	}	else {
+		 			$this->setmensajeoperacion($base->getError());
+		 		
+			}
+		 }	else {
+		 		$this->setmensajeoperacion($base->getError());
+		 	
+		 }		
+		 return $arregloPasajero;
+	}
     
 	function mostrarPasajero() {
 		$obj_pasajero = new Pasajero();
@@ -88,7 +120,7 @@ class Pasajero extends Persona{
 					$objViaje = new Viaje();
 					$objViaje->Buscar($idViaje);
 					$pasaj->setObjViaje($objViaje);
-					
+
 					array_push($arregloPasajero, $pasaj);
 				}
 		 	}	else {

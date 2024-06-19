@@ -4,12 +4,14 @@ class Empresa{
     private $idempresa;
     private $enombre;
     private $edireccion;
+	private $coleccionObjViaje;
     private $mensajeoperacion;
 
     public function __construct(){
         $this->idempresa=0;
         $this->enombre="";
         $this->edireccion="";
+		$this->coleccionObjViaje=[];
     }
 
     public function cargar($enombre,$edireccion){	
@@ -53,6 +55,14 @@ class Empresa{
 		$this->mensajeoperacion=$mensajeoperacion;
 	}
 
+	public function getColeccionObjViaje() {
+		return $this->coleccionObjViaje;
+	}
+
+	public function setColeccionObjViaje($coleccionObjViaje) {
+		$this->coleccionObjViaje = $coleccionObjViaje;
+	}
+
 	function mostrarEmpresas() {
 		$obj_empresa = new Empresa();
 		$coleccionEmpresas = $obj_empresa->listar();
@@ -75,11 +85,18 @@ class Empresa{
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaEmpresa)){
 				if($row2=$base->Registro()){
+					//Creamos un objeto Viaje para la delegación
+					$coleccionViaje = $this->getColeccionObjViaje();
+					$objViaje = new Viaje();
+					$viajeEncontrado = $objViaje->Buscar($idempresa);
+
 				    $this->setIdempresa($idempresa);
 				    $this->setEnombre($row2['enombre']);
 					$this->setEdireccion($row2['edireccion']);
+					array_push($coleccionViaje, $viajeEncontrado);
+					$this->setColeccionObjViaje($coleccionViaje);
 					$resp= true;
-				}				
+				}
 			
 		 	}	else {
 		 			$this->setmensajeoperacion($base->getError());
@@ -185,11 +202,21 @@ class Empresa{
 		return $resp;
 	}
 
+	public function mostrarColeccionEmpresa() {
+		$mostrar = "";
+		$coleccionObjViaje = $this->getColeccionObjViaje();
+		foreach ($coleccionObjViaje as $viaje) {
+			$mostrar.= $viaje->__toString() . "\n";
+		}
+		return $mostrar;
+	}
+
    public function __toString(){
         $cadena="\n--------EMPRESA--------\n" ;
         $cadena.= "NUMERO ID: ".$this->getIdempresa()."\n";
         $cadena.= "NOMBRE: ".$this->getEnombre()."\n";
         $cadena.= "DIRECCION: ".$this->getEdireccion()."\n";
+		$cadena.= "VIAJES DE ESA EMPRESA: \n" . $this->mostrarColeccionEmpresa();
 
         return $cadena;
     }
