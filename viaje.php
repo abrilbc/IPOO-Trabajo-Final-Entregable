@@ -189,6 +189,21 @@ class Viaje {
 		 return $resp;
 	}	
 
+    function mostrarViajes() {
+		$obj_viaje = new Viaje();
+		$coleccionViajes = $obj_viaje->listar();
+		$cadena = "";
+		if (!empty($coleccionViajes)) {
+			$cadena .= "Actualmente existen " . count($coleccionViajes) . " viajes: ";
+			foreach ($coleccionViajes as $empresa) {  
+				$cadena .= $empresa->__toString();
+			}
+		} else {
+			$cadena .= "No hay viajes existentes";
+		}
+		return $cadena;
+	}
+
     public function listar($condicion=""){
 	    $arregloPasajero = null;
 		$base=new BaseDatos();
