@@ -35,6 +35,22 @@ class ResponsableV extends Persona{
         $this->rnumerolicencia = $rnumerolicencia;
     }
 
+	function mostrarResponsable() {
+		$obj_persona = new Persona();
+		$obj_responsable = new ResponsableV();
+		$obj_persona->Buscar($obj_responsable->getIdPersona());
+		$coleccionResponsable = $obj_responsable->listar();
+		$cadena = "";
+		if (!empty($coleccionViajes)) {
+			$cadena .= "Actualmente existen " . count($coleccionViajes) . " viajes: ";
+			foreach ($coleccionViajes as $empresa) {  
+				$cadena .= $empresa->__toString();
+			}
+		} else {
+			$cadena .= "No hay viajes existentes";
+		}
+		return $cadena;
+	}
     /**
 	 * Recupera los datos de una persona por dni
 	 * @param int $dni
