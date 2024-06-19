@@ -14,7 +14,6 @@ class ResponsableV extends Persona{
     }
 
     public function cargarEmpleado($rnumerolicencia) {
-        // $this->setRnumeroempleado($rnumeroempleado);
         $this->setRnumerolicencia($rnumerolicencia);
     }
 
@@ -118,8 +117,8 @@ class ResponsableV extends Persona{
 				$consultaInsertar = "INSERT INTO responsable(ridpersona, rnumeroempleado, rnumerolicencia) 
 					VALUES (".parent::getIdPersona().",".$this->getRnumeroempleado().",".$this->getRnumerolicencia().")";
 			if($base->Iniciar()){
-				if($id = $base->devuelveIDInsercion($consultaInsertar)){
-					$this->setRnumeroempleado($id);
+				if($nroEmpleado = $base->devuelveIDInsercion($consultaInsertar)){
+					$this->setRnumeroempleado($nroEmpleado);
 					$resp=  true;
 				}	else {
 						$this->setmensajeoperacion($base->getError());

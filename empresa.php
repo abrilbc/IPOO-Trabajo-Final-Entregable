@@ -109,7 +109,6 @@ class Empresa{
 					$edireccion=$row2['edireccion'];
 				
 					$empre=new Empresa();
-					//Cambié porque idempresa no entra en cargar y estaba dando error
 					$empre->setIdempresa($idempresa);
 					$empre->cargar($enombre, $edireccion);
 					array_push($arregloEmpresa, $empre);

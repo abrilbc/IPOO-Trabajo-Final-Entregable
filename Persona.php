@@ -104,7 +104,6 @@ class Persona{
 		    $consultaPersonas=$consultaPersonas.' where '.$condicion;
 		}
 		$consultaPersonas.=" order by apellido ";
-		//echo $consultaPersonas;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPersonas)){				
 				$arregloPersona= array();
@@ -198,7 +197,11 @@ class Persona{
 	}
 
 	public function __toString(){
-	    return "\nID Persona: " . $this->getIdPersona() . "\nNombre: ".$this->getNombre(). "\n Apellido:".$this->getApellido()."\n DNI: ".$this->getNrodoc()."\n" . "TELEFONO: " . $this->getTelefono()."\n";
+	    return "\nID Persona: " . $this->getIdPersona() . 
+		"\nNombre: ".$this->getNombre(). 
+		"\n Apellido:".$this->getApellido().
+		"\n DNI: ".$this->getNrodoc()."\n" . 
+		"TELEFONO: " . $this->getTelefono()."\n";
 			
 	}
 }

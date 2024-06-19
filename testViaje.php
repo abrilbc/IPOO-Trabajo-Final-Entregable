@@ -300,7 +300,12 @@ function gestionarResponsable(){
         $numLicencia = trim(fgets(STDIN));
         $responsable->cargar($dni, $nombre, $apellido, $telefono);
         $responsable->cargarEmpleado($numLicencia);
-        $responsable->insertar();
+        $operacion = $responsable->insertar();
+        if ($operacion) {
+            echo "\nResponsable agregado correctamente.\n";
+        } else {
+            echo "\nHubo un problema con la operación.\n";
+        }
     break;
     
     case 2:
@@ -446,6 +451,11 @@ function gestionarPasajero(){
             $pasajero->cargar($dni, $nombre, $apellido, $telefono);
             $pasajero->cargarViaje($obj_viaje);
             $operacion = $pasajero->insertar();
+            if ($operacion){
+                echo "Pasajero agregado correctamente.\n";
+            }else {
+                echo "Ocurrio un problema.\n";
+            }
         }
     break;
     case 2: // Modifica un pasajero

@@ -69,28 +69,26 @@ class Pasajero extends Persona{
 	}
 
 	public function listar($condicion=""){
-	    $arregloPersona = null;
+	    $arregloPasajero = null;
 		$base=new BaseDatos();
 		$consultaPasajeros = "Select * from pasajero ";
 		if ($condicion != ""){
 		    $consultaPasajeros = $consultaPasajeros . ' where ' . $condicion;
 		}
 		$consultaPasajeros .= " order by pidpersona ";
-		//echo $consultaPasajeros;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaPasajeros)){				
 				$arregloPasajero = array();
-				while($row2=$base->Registro()){
+				while($row2 = $base->Registro()){
 				    $id=$row2['pidpersona'];
-					// $NroDoc=$row2['pdocumento'];
-					// $Nombre=$row2['pnombre'];
-					// $Apellido=$row2['papellido'];
-					// $telefono=$row2['ptelefono'];
-                    // $viaje = $row2['idviaje'];
 					$pasaj = new Pasajero();
 					$pasaj->Buscar($id);
-					// $pasaj->cargar($id);
-                    // $pasaj->cargarViaje($viaje);
+					$idViaje = $pasaj->getObjViaje();
+					//Crea un obj viaje para que lo almacene y lo muestre
+					$objViaje = new Viaje();
+					$objViaje->Buscar($idViaje);
+					$pasaj->setObjViaje($objViaje);
+					
 					array_push($arregloPasajero, $pasaj);
 				}
 		 	}	else {
