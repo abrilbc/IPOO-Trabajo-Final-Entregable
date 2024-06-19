@@ -43,11 +43,8 @@ class ResponsableV extends Persona{
 		$cadena = "";
 		if (!empty($coleccionResponsable)) {
 			$cadena .= "Actualmente existen " . count($coleccionResponsable) . " responsables: ";
-			foreach ($coleccionResponsable as $responsable) {  
-				$idpersona = $responsable->getIdPersona();
-				$obj_persona ->Buscar($idpersona);
-				$cadena.="\nNombre: ".$obj_persona->getNombre()."\n Apellido: ".$obj_persona->getApellido();
-				// $cadena .= $responsable->__toString();
+			foreach ($coleccionResponsable as $responsable) {
+				$cadena .= $responsable->__toString();
 			}
 		} else {
 			$cadena .= "No hay responsables existentes";
@@ -59,15 +56,14 @@ class ResponsableV extends Persona{
 	 * @param int $dni
 	 * @return true en caso de encontrar los datos, false en caso contrario 
 	 */		
-    public function Buscar($ridpersona){
+    public function Buscar($nroEmpleado){
 		$base=new BaseDatos();
-		$consultaResponsable = "Select * from responsable where ridpersona=".$ridpersona;
+		$consultaResponsable = "Select * from responsable where rnumeroempleado=".$nroEmpleado;
 		$resp= false;
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaResponsable)){
 				if($row2=$base->Registro()){
-					parent::Buscar($ridpersona);
-
+					parent::Buscar($row2['ridpersona']);
 				    // $this->setIdPersona($ridpersona);
 				    // $this->setNrodoc($row2['rnrodoc']);
 					// $this->setNombre($row2['rnombre']);
@@ -145,12 +141,9 @@ class ResponsableV extends Persona{
 					$resp=  true;
 				}	else {
 						$this->setmensajeoperacion($base->getError());
-						
 				}
-
 			} else {
 					$this->setmensajeoperacion($base->getError());
-				
 			}
 		}
 		return $resp;

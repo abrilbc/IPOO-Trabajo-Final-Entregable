@@ -46,6 +46,8 @@ class BaseDatos {
         if ($conexion){
             if (mysqli_select_db($conexion,$this->BASEDATOS)){
                 $this->CONEXION = $conexion;
+                $this->QUERY = "";
+                $this->ERROR = "";
                 unset($this->QUERY);
                 unset($this->ERROR);
                 $resp = true;
@@ -67,6 +69,7 @@ class BaseDatos {
      */
     public function Ejecutar($consulta){
         $resp  = false;
+        $this->ERROR = "";
         unset($this->ERROR);
         $this->QUERY = $consulta;
         if(  $this->RESULT = mysqli_query( $this->CONEXION,$consulta)){
@@ -86,6 +89,7 @@ class BaseDatos {
     public function Registro() {
         $resp = null;
         if ($this->RESULT){
+            $this->ERROR = "";
             unset($this->ERROR);
             if($temp = mysqli_fetch_assoc($this->RESULT)){
                 $resp = $temp;
@@ -107,6 +111,7 @@ class BaseDatos {
      */
     public function devuelveIDInsercion($consulta){
         $resp = null;
+        $this->ERROR = "";
         unset($this->ERROR);
         $this->QUERY = $consulta;
         if ($this->RESULT = mysqli_query($this->CONEXION,$consulta)){

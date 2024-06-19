@@ -98,8 +98,7 @@ class Pasajero extends Persona{
 				VALUES (". parent::getIdPersona() . "," . $this->getObjViaje() . ")";
 		if($base->Iniciar()){
 			if($id = $base->devuelveIDInsercion($consultaInsertar)){
-                $this->setIdPersona($id);
-			    $resp=  true;
+			    $resp = true;
 			} else {
 					$this->setmensajeoperacion($base->getError());
 			}
@@ -116,7 +115,7 @@ class Pasajero extends Persona{
 	    $resp =false; 
 	    $base=new BaseDatos();
 		if(parent::modificar()){
-			$consultaModifica="UPDATE pasajero SET pidviaje=".$this->getObjViaje()." WHERE pidpersona=".parent::getIdPersona();
+			$consultaModifica="UPDATE pasajero SET idviaje=".$this->getObjViaje()." WHERE pidpersona=".parent::getIdPersona();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
@@ -157,6 +156,7 @@ class Pasajero extends Persona{
         $cadena = "\n--------PASAJERO--------\n";
         $cadena .= parent::__toString();
         $cadena .= "\nSU VIAJE: " . $this->getObjViaje();
+		$cadena .= $this->getmensajeoperacion();
         return $cadena;
     }
 

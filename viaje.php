@@ -244,8 +244,8 @@ class Viaje {
     public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$consultaInsertar="INSERT INTO viaje(idviaje, vdestino, vcantmaxpasajeros,  idempresa, rnumeroempleado, vimporte) 
-				VALUES (".$this->getIdviaje().",'".$this->getVdestino()."',".$this->getVcantmaxpasajeros().",".$this->getIdempresa().",".$this->getRnumeroempleado().",".$this->getVimporte().")";
+		$consultaInsertar="INSERT INTO viaje(vdestino, vcantmaxpasajeros, idempresa, rnumeroempleado, vimporte) 
+				VALUES ('".$this->getVdestino()."',".$this->getVcantmaxpasajeros().",".$this->getIdempresa().",".$this->getRnumeroempleado().",".$this->getVimporte().")";
 		if($base->Iniciar()){
 
 			if($idviaje = $base->devuelveIDInsercion($consultaInsertar)){
@@ -267,7 +267,7 @@ class Viaje {
     public function modificar(){
 	    $resp =false; 
 	    $base=new BaseDatos();
-		$consultaModifica="UPDATE viaje SET idviaje='".$this->getIdviaje()."',vdestino='".$this->getVdestino()."',vcantmaxpasajeros='".$this->getVcantmaxpasajeros()."',idempresa=". $this->getIdempresa()."',rnumerompleado=".$this->getRnumeroempleado()."',vimporte=".$this->getVimporte()." WHERE idviaje=".$this->getIdviaje();
+		$consultaModifica="UPDATE viaje SET idviaje=".$this->getIdviaje().", vdestino='".$this->getVdestino()."', vcantmaxpasajeros=".$this->getVcantmaxpasajeros().", idempresa=". $this->getIdempresa().", rnumeroempleado=".$this->getRnumeroempleado().", vimporte=".$this->getVimporte()." WHERE idviaje=".$this->getIdviaje();
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaModifica)){
 			    $resp=  true;
