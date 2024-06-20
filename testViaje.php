@@ -299,7 +299,7 @@ function gestionarResponsable(){
 
 function gestionarPasajero(){
     echo "\n--------OPCIONES--------\n";
-    echo "1. AGREGAR pasajero\n";
+    echo "1. AGREGAR pasajero\n"; 
     echo "2. MODIFICAR pasajero\n";
     echo "3. ELIMINAR pasajero\n";
     echo "4. Mostrar pasajeros\n";
@@ -308,7 +308,8 @@ function gestionarPasajero(){
     $opcion = trim(fgets(STDIN));
     switch($opcion){
         case 1: 
-        
+        // AGREGAR PASAJERO tira un error cuando termina, lo mostramos, pero aún así se agrega a la base de datos
+        // Creemos que quizás es un error de la base de datos
         $obj_viaje = new Viaje();
         echo "\nDestinos: \n";
         $verViajes = $obj_viaje->mostrarViajes('mostrar');
@@ -355,7 +356,7 @@ function gestionarPasajero(){
         }
         break;
         
-    case 3: //
+    case 3: //Elimina un pasajero
             $obj_pasajero = new Pasajero();
             $visualizar = $obj_pasajero->mostrarPasajero('mostrar');
             echo $visualizar;
@@ -403,7 +404,7 @@ function modificarResponsable($responsable, $persona) {
         $opcion=trim(fgets(STDIN));
         $operacion = null;
         switch($opcion){
-        case 1:
+        case 1: //Modificar Nombre
             echo "NUEVO NOMBRE: ";
             $nombreNuevo = trim(fgets(STDIN));
             $responsable->Buscar($nroEmpleado);
@@ -412,7 +413,7 @@ function modificarResponsable($responsable, $persona) {
             $persona->setNombre($nombreNuevo);
             $operacion = $persona->modificar();
             break;
-        case 2:
+        case 2: //Modificar Apellido
             echo "NUEVO APELLIDO: ";
             $apellidoNuevo=trim(fgets(STDIN));
             $responsable->Buscar($nroEmpleado);
@@ -421,7 +422,7 @@ function modificarResponsable($responsable, $persona) {
             $persona->setApellido($apellidoNuevo);
             $operacion = $persona->modificar();
             break;
-        case 3:
+        case 3: //Modificar DNI
             echo "NUEVO DNI: ";
             $dniNuevo = trim(fgets(STDIN));
             $responsable->Buscar($nroEmpleado);
@@ -430,7 +431,7 @@ function modificarResponsable($responsable, $persona) {
             $persona->setNrodoc($dniNuevo);
             $operacion = $persona->modificar();
             break;
-        case 4:
+        case 4: //Modificar TELEFONO
             echo "NUEVO TELEFONO: ";
             $telefonoNuevo=trim(fgets(STDIN));
             $responsable->Buscar($nroEmpleado);
@@ -439,7 +440,7 @@ function modificarResponsable($responsable, $persona) {
             $persona->setTelefono($telefonoNuevo);
             $operacion = $persona->modificar();
             break;
-        case 5:
+        case 5: //Modificar Nro Licencia
             echo "NUEVO NUMERO DE LICENCIA: ";
             $nroLicenciaNuevo=trim(fgets(STDIN));
             $responsable->Buscar($nroEmpleado);
@@ -471,7 +472,7 @@ function modificarPasajero($pasajero, $nroPasajero) {
         
             $operacion = null;
             switch($opcion){
-            case 1:
+            case 1: //Modificar Nombre
                 echo "NUEVO NOMBRE: ";
                 $nombreNuevo = trim(fgets(STDIN));
                 $pasajero->Buscar($nroPasajero);
@@ -481,7 +482,7 @@ function modificarPasajero($pasajero, $nroPasajero) {
                 $obj_persona->setnombre($nombreNuevo);
                 $operacion = $obj_persona->modificar();
                 break;
-            case 2:
+            case 2: //Modificar Apellido
                 echo "NUEVO APELLIDO: ";
                 $apellidoNuevo=trim(fgets(STDIN));
                 $pasajero->Buscar($nroPasajero);
@@ -491,7 +492,7 @@ function modificarPasajero($pasajero, $nroPasajero) {
                 $obj_persona->setapellido($apellidoNuevo);
                 $operacion = $obj_persona->modificar();
                 break;
-            case 3:
+            case 3: //Modificar DNI
                 echo "NUEVO DNI: ";
                 $dniNuevo=trim(fgets(STDIN));
                 $pasajero->Buscar($nroPasajero);
@@ -501,7 +502,7 @@ function modificarPasajero($pasajero, $nroPasajero) {
                 $obj_persona->setNrodoc($dniNuevo);
                 $operacion = $obj_persona->modificar();
                 break;
-            case 4:
+            case 4: //Modificar Telefono
                 echo "NUEVO TELEFONO: ";
                 $telefonoNuevo=trim(fgets(STDIN));
                 $pasajero->Buscar($nroPasajero);
@@ -511,7 +512,7 @@ function modificarPasajero($pasajero, $nroPasajero) {
                 $obj_persona->setTelefono($telefonoNuevo);
                 $operacion = $obj_persona->modificar();
                 break;
-            case 5:
+            case 5: //Modificar VIAJE
                 echo "\nViajes Disponibles: \n";
                 $viaje = new Viaje();
                 echo $viaje->mostrarViajes('mostrar');
@@ -547,7 +548,7 @@ function modificarViaje($viaje) {
                         $nuevoDestino = trim(fgets(STDIN));
                         $viaje->setVdestino($nuevoDestino);
                         break;
-                    case 2:
+                    case 2: // Modifica la cantidad máxima de pasajeros
                         echo "\nIngrese la nueva cantidad máxima: ";
                         $nuevaCant = trim(fgets(STDIN));
                         $viaje->setVcantmaxpasajeros($nuevaCant);
