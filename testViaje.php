@@ -13,20 +13,24 @@ function menuPrincipal() {
     echo "\n\n--------MENU PRINCIPAL--------\n";
     echo "1. Gestionar EMPRESA.\n";
     echo "2. Gestionar VIAJE.\n";
-    echo "3. Salir \n";
+    echo "3. Gestionar PERSONA \n";
+    echo "4. Salir\n";
     echo "ELECCIÓN: ";
     $opcion=trim(fgets(STDIN));
         switch($opcion){
         
-        case '1': 
+        case 1: 
             gestionEmpresa();
             break;
 
-        case '2': 
+        case 2: 
             gestionViaje();
             break;
         case 3:
+            gestionarPersona();
             break;
+        case 4:
+            echo "¡Hasta Luego!";
         default:
             echo "-----> Opción Incorrecta\n";
         }
@@ -134,8 +138,7 @@ function gestionViaje() {
     echo "2. MODIFICAR Viaje \n";
     echo "3. ELIMINAR Viaje \n";
     echo "4. LISTAR Viajes Existentes\n";
-    echo "5. GESTIONAR Persona\n";
-    echo "6. Volver al Menú Principal\n";
+    echo "5. Volver al Menú Principal\n";
     echo "ELECCION: ";
     $opcion=trim(fgets(STDIN));
     switch ($opcion) {
@@ -148,14 +151,15 @@ function gestionViaje() {
 
             /** Muestra las empresas existentes */
             $emp = new Empresa();
-            echo $emp->mostrarEmpresas('mostrar');
+            echo $emp->mostrarEmpresas('visualizar');
+            echo "-----------------------";
             echo "EMPRESA ELEGIDA: ";
             $empresa = trim(fgets(STDIN));
             if ($emp->Buscar($empresa)) {
                 /** Muestra los responsables existentes */
+                echo "Ingrese el número de empleado responsable: \n\n";
                 $obj_responsable = new ResponsableV();
                 echo $obj_responsable->mostrarResponsable();
-                echo "\nIngrese el número de empleado responsable: \n";
                 echo "RESPONSABLE ELEGIDO: ";
                 $responsable = trim(fgets(STDIN));
                 if ($obj_responsable->Buscar($responsable)) {
@@ -219,62 +223,29 @@ function gestionViaje() {
             $visualizar = $viaje->mostrarViajes('visualizar');
             echo $visualizar;
             break;
-        case 5: 
-            gestionarPersona();
-            break;
-        case 6:
+        case 5:
             break;
         default:
             echo "Opción Incorrecta.";
         }
     }
 
-    function modificarViaje($viaje) {
-        echo "\nViaje encontrado.\n";
-                    echo "¿Qué desea modificar?\n";
-                    echo "1. Destino\n";
-                    echo "2. Cantidad Máxima de Pasajeros\n";
-                    echo "3. Empresa\n";
-                    echo "4. Responsable\n";
-                    echo "5. Importe de Viaje\n";
-                    echo "6. Salir\n";
-                    echo "ELECCION: ";
-                    $selec = trim(fgets(STDIN));
-                    switch($selec) {
-                        case 1: // Modifica el destino del viaje
-                            echo "\nIngrese el nuevo destino: ";
-                            $nuevoDestino = trim(fgets(STDIN));
-                            $viaje->setVdestino($nuevoDestino);
-                            break;
-                        case 2:
-                            echo "\nIngrese la nueva cantidad máxima: ";
-                            $nuevaCant = trim(fgets(STDIN));
-                            $viaje->setVcantmaxpasajeros($nuevaCant);
-                            break;
-                        case 3:
-                            echo "\nIngrese el ID de la nueva empresa: ";
-                            $nuevaEmpresa = trim(fgets(STDIN));
-                            $viaje->setIdempresa($nuevaEmpresa);
-                            break;
-                        case 4:
-                            echo "\nIngrese el Número de Empleado del nuevo responsable: ";
-                            $nuevoResponsable = trim(fgets(STDIN));
-                            $viaje->setRnumeroempleado($nuevoResponsable);
-                            break;
-                        case 5:
-                            echo "\nIngrese el nuevo Importe: ";
-                            $importeNuevo = trim(fgets(STDIN));
-                            $viaje->setVimporte($importeNuevo);
-                            break;
-                        case 6:
-                            break;
-                        default: 
-                            echo "Opción Incorrecta.";
-                    }
-                    $operacion = $viaje->modificar();
-                    if ($operacion) {
-                        echo "Viaje modificado exitosamente.\n";
-                    }
+    function gestionarPersona() {
+        echo "\nSeleccione lo que desea gestionar: \n";
+        echo "1. Responsable del viaje \n";
+        echo "2. Pasajero del viaje \n";
+        echo "Selección: ";
+        $seleccion = trim(fgets(STDIN));
+        switch ($seleccion) {
+            case 1: 
+                gestionarResponsable();
+                break;
+            case 2:
+                gestionarPasajero();
+                break;
+            default:
+            echo "Opción incorrecta.";
+        }
     }
 
 function gestionarResponsable(){
@@ -434,7 +405,7 @@ function gestionarPasajero(){
         
         $obj_viaje = new Viaje();
         echo "\nDestinos: \n";
-        $verViajes = $obj_viaje->mostrarViajes('visualizar');
+        $verViajes = $obj_viaje->mostrarViajes('mostrar');
         echo $verViajes;
         echo "\nIngrese el ID del destino: ";
         $idViaje = trim(fgets(STDIN));
@@ -577,24 +548,54 @@ function gestionarPasajero(){
     }
 }
 
-function gestionarPersona() {
-    echo "\nSeleccione lo que desea gestionar: \n";
-    echo "1. Responsable del viaje \n";
-    echo "2. Pasajero del viaje \n";
-    echo "Selección: ";
-    $seleccion = trim(fgets(STDIN));
-    switch ($seleccion) {
-        case 1: 
-            gestionarResponsable();
-            break;
-        case 2:
-            gestionarPasajero();
-            break;
-        default:
-        echo "Opción incorrecta.";
-    }
-}
 
+function modificarViaje($viaje) {
+    echo "\nViaje encontrado.\n";
+                echo "¿Qué desea modificar?\n";
+                echo "1. Destino\n";
+                echo "2. Cantidad Máxima de Pasajeros\n";
+                echo "3. Empresa\n";
+                echo "4. Responsable\n";
+                echo "5. Importe de Viaje\n";
+                echo "6. Salir\n";
+                echo "ELECCION: ";
+                $selec = trim(fgets(STDIN));
+                switch($selec) {
+                    case 1: // Modifica el destino del viaje
+                        echo "\nIngrese el nuevo destino: ";
+                        $nuevoDestino = trim(fgets(STDIN));
+                        $viaje->setVdestino($nuevoDestino);
+                        break;
+                    case 2:
+                        echo "\nIngrese la nueva cantidad máxima: ";
+                        $nuevaCant = trim(fgets(STDIN));
+                        $viaje->setVcantmaxpasajeros($nuevaCant);
+                        break;
+                    case 3:
+                        echo "\nIngrese el ID de la nueva empresa: ";
+                        $nuevaEmpresa = trim(fgets(STDIN));
+                        $viaje->setIdempresa($nuevaEmpresa);
+                        break;
+                    case 4:
+                        echo "\nIngrese el Número de Empleado del nuevo responsable: ";
+                        $nuevoResponsable = trim(fgets(STDIN));
+                        $viaje->setRnumeroempleado($nuevoResponsable);
+                        break;
+                    case 5:
+                        echo "\nIngrese el nuevo Importe: ";
+                        $importeNuevo = trim(fgets(STDIN));
+                        $viaje->setVimporte($importeNuevo);
+                        break;
+                    case 6:
+                        break;
+                    default: 
+                        echo "Opción Incorrecta.";
+                }
+                $operacion = $viaje->modificar();
+                if ($operacion) {
+                    echo "Viaje modificado exitosamente.\n";
+                }
+}
 function visualizarEmpresas() {
     $obj_Empresa = new Empresa();
     $visualizar = $obj_Empresa->mostrarEmpresas();
