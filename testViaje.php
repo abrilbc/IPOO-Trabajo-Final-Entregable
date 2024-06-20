@@ -431,32 +431,40 @@ function gestionarPasajero(){
     $opcion = trim(fgets(STDIN));
     switch($opcion){
         case 1: 
+        
         $obj_viaje = new Viaje();
-        echo "\nIngrese el nombre del pasajero: ";
-        $nombre = trim(fgets(STDIN));
-        echo "\nIngrese el apellido del pasajero: ";
-        $apellido = trim(fgets(STDIN));
-        echo "\nIngrese el DNI del pasajero: ";
-        $dni = trim(fgets(STDIN));
-        echo "\nIngrese el telefono del pasajero: ";
-        $telefono = trim(fgets(STDIN));
         echo "\nDestinos: \n";
         $verViajes = $obj_viaje->mostrarViajes();
         echo $verViajes;
         echo "\nIngrese el ID del destino: ";
         $idViaje = trim(fgets(STDIN));
         $obj_viaje->Buscar($idViaje);
-        if ($obj_viaje->Buscar($idViaje)){
-            $pasajero = new Pasajero();
-            $pasajero->cargar($dni, $nombre, $apellido, $telefono);
-            $pasajero->cargarViaje($obj_viaje);
-            $operacion = $pasajero->insertar();
-            if ($operacion){
-                echo "Pasajero agregado correctamente.\n";
+
+            if($obj_viaje->cantidadMaxima(($idViaje))){
+                if ($obj_viaje->Buscar($idViaje)){
+                    echo "\nIngrese el nombre del pasajero: ";
+                    $nombre = trim(fgets(STDIN));
+                    echo "\nIngrese el apellido del pasajero: ";
+                    $apellido = trim(fgets(STDIN));
+                    echo "\nIngrese el DNI del pasajero: ";
+                    $dni = trim(fgets(STDIN));
+                    echo "\nIngrese el telefono del pasajero: ";
+                    $telefono = trim(fgets(STDIN));
+                    $pasajero = new Pasajero();
+                    $pasajero->cargar($dni, $nombre, $apellido, $telefono);
+                    $pasajero->cargarViaje($obj_viaje);
+                    $operacion = $pasajero->insertar();
+                    if ($operacion){
+                        echo "Pasajero agregado correctamente.\n";
+                    }else {
+                        echo "Ocurrio un problema.\n";
+                    }
+                }
+
             }else {
-                echo "Ocurrio un problema.\n";
+                echo "-----> Este viaje ha alcanzado su capacidad maxima de pasajeros.";
             }
-        }
+
     break;
     case 2: // Modifica un pasajero
         $pasaj = new Pasajero();

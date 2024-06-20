@@ -115,7 +115,8 @@ class Persona{
 					$telefono=$row2['telefono'];
 				
 					$perso=new Persona();
-					$perso->cargar($id,$NroDoc,$Nombre,$Apellido,$telefono);
+					$perso->setIdpersona($id);
+					$perso->cargar($NroDoc,$Nombre,$Apellido,$telefono);
 					array_push($arregloPersona,$perso);
 	
 				}
