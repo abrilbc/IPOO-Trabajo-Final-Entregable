@@ -170,8 +170,8 @@ class Empresa{
     public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$consultaInsertar="INSERT INTO empresa( enombre, edireccion) 
-				VALUES (".$this->getEnombre()."','".$this->getEdireccion()."')";
+		$consultaInsertar="INSERT INTO empresa(enombre, edireccion) 
+				VALUES ('".$this->getEnombre()."','".$this->getEdireccion()."')";
 		if($base->Iniciar()){
 
 			if($idempresa = $base->devuelveIDInsercion($consultaInsertar)){

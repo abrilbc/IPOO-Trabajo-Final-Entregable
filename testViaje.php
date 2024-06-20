@@ -553,14 +553,28 @@ function modificarViaje($viaje) {
                         $viaje->setVcantmaxpasajeros($nuevaCant);
                         break;
                     case 3:
+                        $empresa = new Empresa();
+                        echo $empresa->mostrarEmpresas('visualizar');
                         echo "\nIngrese el ID de la nueva empresa: ";
                         $nuevaEmpresa = trim(fgets(STDIN));
-                        $viaje->setIdempresa($nuevaEmpresa);
+                        $operacion = $empresa->Buscar($nuevaEmpresa);
+                        if ($operacion) {
+                            $viaje->setObj_empresa($empresa);
+                        } else {
+                            echo "No se ha encontrado la empresa seleccionada";
+                        }
                         break;
                     case 4:
+                        $empleado = new ResponsableV();
+                        echo $empleado->mostrarResponsable();
                         echo "\nIngrese el Número de Empleado del nuevo responsable: ";
                         $nuevoResponsable = trim(fgets(STDIN));
-                        $viaje->setRnumeroempleado($nuevoResponsable);
+                        $operacion = $empleado->Buscar($nuevoResponsable);
+                        if ($operacion) {
+                            $viaje->setObj_responsable($empleado);
+                        } else {
+                            echo "No se ha encontrado el Empleado seleccionado";
+                        }
                         break;
                     case 5:
                         echo "\nIngrese el nuevo Importe: ";
