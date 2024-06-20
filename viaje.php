@@ -115,9 +115,14 @@ class Viaje {
         $pasajero = new Pasajero();
         $coleccionPasajeros = $pasajero->pasajerosEnViaje($idviaje);
         $cadena = "";
-        foreach ($coleccionPasajeros as $i => $objeto){
-            $cadena .= "\n-------> PASAJERO " . $i+1 . ": ";
-            $cadena .= "\n".$objeto;
+        if (!empty($coleccionPasajeros)) {
+            $cadena .= "|---> Este viaje tiene " . count($coleccionPasajeros) . " pasajeros registrados:\n";
+            foreach ($coleccionPasajeros as $i => $pasajero){
+                $cadena .= "\n---------PASAJERO N°" . $i+1 . "---------";
+                $cadena .= $pasajero;
+            }
+        } else {
+            $cadena .= "|---> Este viaje no tiene pasajeros registrados \n";
         }
         return $cadena;
     }
@@ -175,8 +180,6 @@ class Viaje {
 		 return $resp;
 	}	
 
-    public function BuscarPasajeros() {
-    }
 
     public function cantidadMaxima($idViaje){
         $bandera=false;
@@ -202,13 +205,13 @@ class Viaje {
 				while($row2 = $base->Registro()){
 					$objEmpresa = new Empresa();
 					$objEmpresa->Buscar($idEmpresa);
-					$id=$row2['idempresa'];
+					$idViaje = $row2['idviaje'];
 					//Crea el objeto y le settea los valores
 					$viaje = new Viaje();
-					$viaje->Buscar($id);
+					$viaje->Buscar($idViaje);
 
 					array_push($arregloViajes, $viaje);
-					$this->setObj_empresa($objEmpresa);
+					$this->setObj_empresa($objEmpresa->getIdempresa());
 					$resp = true;
 				}				
 			
@@ -223,15 +226,25 @@ class Viaje {
 		 return $arregloViajes;
 	}
 
-    function mostrarViajes() {
+    function mostrarViajes($opcion) {
 		$obj_viaje = new Viaje();
 		$coleccionViajes = $obj_viaje->listar("");
 		$cadena = "";
 		if (!empty($coleccionViajes)) {
-			$cadena .= "Actualmente existen " . count($coleccionViajes) . " viaje(s): ";
-			foreach ($coleccionViajes as $empresa) {
-				$cadena .= $empresa->__toString();
-			}
+            switch ($opcion) {
+                case 'mostrar': 
+                    $cadena .= "\n---> Actualmente existen " . count($coleccionViajes) . " viaje(s) para modificar:";
+			        foreach ($coleccionViajes as $viaje) {
+				        $cadena .= $viaje->mostrarString();
+			        }
+                    break;
+                case 'visualizar':
+                    $cadena .= "\n---> Actualmente existen " . count($coleccionViajes) . " viaje(s)";
+			        foreach ($coleccionViajes as $viaje) {
+				        $cadena .= $viaje;
+			        }
+            }
+			
 		} else {
 			$cadena .= "No hay viajes existentes";
 		}
@@ -334,14 +347,24 @@ class Viaje {
 		}
 		return $resp; 
 	}
-
+    /** Función que muestra el Viaje tradicional (si usaba el __toString se traba el visual, demasiada información)
+     * 
+     */
+    public function mostrarString() {
+        $cadena="\n--------VIAJE--------\n";
+        $cadena.= "NUMERO: ".$this->getIdviaje()."\n";
+        $cadena.= "DESTINO: ".$this->getVdestino()."\n";
+        $cadena.= "CANTIDAD MAXIMA DE PASAJEROS: ".$this->getVcantmaxpasajeros()."\n";
+        $cadena.= "EMPRESA: ".$this->getObj_empresa()."\n";
+        return $cadena;
+    }
     public function __toString(){
         $cadena="\n--------VIAJE--------\n";
         $cadena.= "NUMERO: ".$this->getIdviaje()."\n";
         $cadena.= "DESTINO: ".$this->getVdestino()."\n";
         $cadena.= "CANTIDAD MAXIMA DE PASAJEROS: ".$this->getVcantmaxpasajeros()."\n";
-        $cadena.= "NUMERO EMPRESA: ".$this->getObj_empresa()."\n";
-        $cadena.= "NUMERO EMPLEADO RESPONSABLE: ".$this->getObj_responsable()."\n";
+        $cadena.= "EMPRESA: ".$this->getObj_empresa()."\n";
+        $cadena.= "EMPLEADO RESPONSABLE: ".$this->getObj_responsable()."\n";
         $cadena.= "IMPORTE: ".$this->getVimporte()."\n";
         $cadena.= $this->mostrarColeccion($this->getIdviaje())."\n";
         

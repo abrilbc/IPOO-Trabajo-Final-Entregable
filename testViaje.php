@@ -61,7 +61,7 @@ switch($opcion){
         break;
     case 2: // Modifica una empresa
         $obj_Empresa = new Empresa;
-        $visualizar = $obj_Empresa->mostrarEmpresas();
+        $visualizar = $obj_Empresa->mostrarEmpresas('visualizar');
         echo $visualizar;
         echo "\nIngrese el ID de la empresa a modificar: ";
         $idEmpresa=trim(fgets(STDIN));
@@ -91,13 +91,13 @@ switch($opcion){
         // Modifica la empresa
         $operacion = $obj_Empresa->modificar();
         if ($operacion) {
-            echo "Datos cambiados existosamente.";
-            echo $obj_Empresa->__toString();
+            echo "Datos cambiados existosamente:";
+            echo $obj_Empresa;
         }
         break;
     case 3: // Elimina una empresa
         $obj_Empresa = new Empresa();
-        $visualizar = $obj_Empresa->mostrarEmpresas();
+        $visualizar = $obj_Empresa->mostrarEmpresas('visualizar');
         echo $visualizar;
         echo "\nIngrese el ID de la empresa que desea ELIMINAR: ";
         $idEliminar= trim(fgets(STDIN));
@@ -117,7 +117,7 @@ switch($opcion){
         break;
     case 4: // Muestra las empresas almacenadas
         $obj_Empresa = new Empresa();
-        $visualizar = $obj_Empresa->mostrarEmpresas();
+        $visualizar = $obj_Empresa->mostrarEmpresas('mostrar');
         echo $visualizar;
         break;
     case 5:
@@ -148,7 +148,7 @@ function gestionViaje() {
 
             /** Muestra las empresas existentes */
             $emp = new Empresa();
-            echo $emp->mostrarEmpresas();
+            echo $emp->mostrarEmpresas('mostrar');
             echo "EMPRESA ELEGIDA: ";
             $empresa = trim(fgets(STDIN));
             if ($emp->Buscar($empresa)) {
@@ -177,7 +177,7 @@ function gestionViaje() {
             break;
         case 2: // Modifica los viajes almacenados
             $viaje = new Viaje();
-            $visualizar = $viaje->mostrarViajes();
+            $visualizar = $viaje->mostrarViajes('mostrar');
             echo $visualizar;
             echo "\nIngrese el ID del viaje que quiere modificar: ";
             $idviaje = trim(fgets(STDIN));
@@ -190,13 +190,13 @@ function gestionViaje() {
             break;
         case 3: // Elimina los viajes almacenados
             $viaje = new Viaje();
-            $visualizar = $viaje->mostrarViajes();
+            $visualizar = $viaje->mostrarViajes('mostrar');
             echo $visualizar;
             echo "\nIngrese el ID del viaje que desea ELIMINAR: ";
             $idEliminar= trim(fgets(STDIN));
             $buscar = $viaje->Buscar($idEliminar);
             if ($buscar) {
-                echo "----> ¿Está segurx de querer eliminar el viaje " . $viaje->getIdviaje() . "? (SI/NO)\n";
+                echo "----> ¿Está segurx de querer eliminar el viaje de ID " . $viaje->getIdviaje() . "? (SI/NO)\n";
                 echo "DECISION: ";
                 $decision=trim(fgets(STDIN));
 
@@ -216,7 +216,7 @@ function gestionViaje() {
             break;
         case 4: //Muestra los viajes almacenados
             $viaje = new Viaje();
-            $visualizar = $viaje->mostrarViajes();
+            $visualizar = $viaje->mostrarViajes('visualizar');
             echo $visualizar;
             break;
         case 5: 
@@ -434,7 +434,7 @@ function gestionarPasajero(){
         
         $obj_viaje = new Viaje();
         echo "\nDestinos: \n";
-        $verViajes = $obj_viaje->mostrarViajes();
+        $verViajes = $obj_viaje->mostrarViajes('visualizar');
         echo $verViajes;
         echo "\nIngrese el ID del destino: ";
         $idViaje = trim(fgets(STDIN));
@@ -468,7 +468,7 @@ function gestionarPasajero(){
     break;
     case 2: // Modifica un pasajero
         $pasaj = new Pasajero();
-        echo $pasaj->mostrarPasajero();
+        echo $pasaj->mostrarPasajero('mostrar');
         echo "\nIngrese el numero de pasajero a modificar: ";
         $nroPasajero=trim(fgets(STDIN));
         if ($pasaj->Buscar($nroPasajero)){
@@ -524,7 +524,7 @@ function gestionarPasajero(){
             case 5:
                 echo "\nViajes Disponibles: \n";
                 $viaje = new Viaje();
-                echo $viaje->mostrarViajes();
+                echo $viaje->mostrarViajes('mostrar');
                 echo "NUEVO VIAJE: ";
                 $idViajeNuevo = trim(fgets(STDIN));
                 $obj_pasajero = new Pasajero();
@@ -536,17 +536,17 @@ function gestionarPasajero(){
                 echo "Opción Incorrecta.";
             }
             if ($operacion && $operacion != null) {
-                echo "Datos cambiados existosamente.";
-                $obj_pasajero->__toString();
+                echo "Datos cambiados ex<istosamente.";
+                echo $obj_pasajero;
             }
         }else {
             echo "----> Pasajero NO encontrado.\n";
         }
         break;
         
-    case 3:
+    case 3: //
             $obj_pasajero = new Pasajero();
-            $visualizar = $obj_pasajero->mostrarPasajero();
+            $visualizar = $obj_pasajero->mostrarPasajero('mostrar');
             echo $visualizar;
             echo "\nIngrese el numero de pasajero que desea ELIMINAR: ";
             $nroEliminar= trim(fgets(STDIN));
@@ -593,6 +593,12 @@ function gestionarPersona() {
         default:
         echo "Opción incorrecta.";
     }
+}
+
+function visualizarEmpresas() {
+    $obj_Empresa = new Empresa();
+    $visualizar = $obj_Empresa->mostrarEmpresas();
+    echo $visualizar;
 }
 
 menuPrincipal();

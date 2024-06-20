@@ -67,8 +67,7 @@ class Pasajero extends Persona{
 					//Crea el objeto y le settea los valores
 					$pasajeroViaje = new Pasajero();
 					$pasajeroViaje->Buscar($id);
-
-
+					
 					array_push($arregloPasajero, $pasajeroViaje);
 					$this->setObjViaje($objViaje->getIdviaje());
 					$resp = true;
@@ -85,15 +84,26 @@ class Pasajero extends Persona{
 		 return $arregloPasajero;
 	}
     
-	function mostrarPasajero() {
+	function mostrarPasajero($tipo) {
 		$obj_pasajero = new Pasajero();
 		$coleccionPasajero = $obj_pasajero->listar("");
 		$cadena = "";
 		if (!empty($coleccionPasajero)) {
-			$cadena .= "Actualmente existen " . count($coleccionPasajero) . " pasajero(s): ";
-			foreach ($coleccionPasajero as $pasajero) {
-				$cadena .= $pasajero->__toString();
+			switch ($tipo) {
+				case 'mostrar':
+					$cadena .= "Actualmente existen " . count($coleccionPasajero) . " pasajero(s) para modificar: ";
+					foreach ($coleccionPasajero as $pasajero) {
+					$cadena .= $pasajero->stringSimplificado();
+					}
+					break;
+				case 'visualizar';
+					$cadena .= "Actualmente existen " . count($coleccionPasajero) . " pasajero(s): ";
+					foreach ($coleccionPasajero as $pasajero) {
+					$cadena .= $pasajero;
+					}
+					break;
 			}
+			
 		} else {
 			$cadena .= "No hay pasajeros existentes";
 		}
@@ -195,10 +205,11 @@ class Pasajero extends Persona{
 		return $resp; 
 	}
 
-    
+    public function stringSimplificado() {
+		return parent::__toString();
+	}
     public function __toString() {
-        $cadena = "\n--------PASAJERO--------\n";
-        $cadena .= parent::__toString();
+        $cadena = parent::__toString();
         $cadena .= "\nSU VIAJE: " . $this->getObjViaje();
 		$cadena .= $this->getmensajeoperacion();
         return $cadena;

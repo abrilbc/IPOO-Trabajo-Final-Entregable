@@ -63,14 +63,39 @@ class Empresa{
 		$this->coleccionObjViaje = $coleccionObjViaje;
 	}
 
-	function mostrarEmpresas() {
+	public function mostrarViajesEmpresa($idempresa) {
+		$viaje = new Viaje();
+		$colViajes = $viaje->viajesEnEmpresas($idempresa);
+		$cadena = "";
+		if (!empty($colViajes)) {
+			$cadena.= "|--->La empresa de ID " . $idempresa . " ha hecho " . count($colViajes) . " viajes:\n";
+			foreach ($colViajes as $viaje) {
+				$cadena .= $viaje->mostrarString();
+			}
+		} else {
+			$cadena .= "|--->Esta empresa aún no ha realizado viajes.\n";
+		}
+		return $cadena;
+ 	}
+	public function mostrarEmpresas($tipo) {
 		$obj_empresa = new Empresa();
-		$coleccionEmpresas = $obj_empresa->listar("");
+		$coleccionEmpresas = $obj_empresa->listar();
 		$cadena = "";
 		if (!empty($coleccionEmpresas)) {
-			$cadena .= "Actualmente existen " . count($coleccionEmpresas) . " empresa(s): ";
-			foreach ($coleccionEmpresas as $empresa) {  
-				$cadena .= $empresa->__toString();
+			switch ($tipo) {
+				case 'mostrar':
+					$cadena .= "Actualmente existen " . count($coleccionEmpresas) . " empresa(s): ";
+					foreach ($coleccionEmpresas as $empresa) {
+						$idempresa = $empresa->getIdempresa();
+						$cadena .= $empresa;
+						$cadena .= $empresa->mostrarViajesEmpresa($idempresa);
+					}
+					break;
+				case 'visualizar':
+					$cadena .= "\n|--->Actualmente existen " . count($coleccionEmpresas) . " empresa(s) para elegir: ";
+					foreach ($coleccionEmpresas as $empresa) {
+						$cadena .= $empresa;
+					}
 			}
 		} else {
 			$cadena .= "No hay empresas existentes";
@@ -109,7 +134,7 @@ class Empresa{
 		 return $resp;
 	}	
 
-    public function listar($condicion){
+    public function listar($condicion=""){
 	    $arregloEmpresa = null;
 		$base=new BaseDatos();
 		$consultaEmpresa="Select * from empresa ";
@@ -201,14 +226,8 @@ class Empresa{
 		}
 		return $resp;
 	}
-
-	public function mostrarColeccionEmpresa() {
-		$mostrar = "";
-		$coleccionObjViaje = $this->getColeccionObjViaje();
-		foreach ($coleccionObjViaje as $viaje) {
-			$mostrar.= $viaje->__toString() . "\n";
-		}
-		return $mostrar;
+	public function paraVisualizar() {
+	
 	}
 
    public function __toString(){
@@ -216,8 +235,6 @@ class Empresa{
         $cadena.= "NUMERO ID: ".$this->getIdempresa()."\n";
         $cadena.= "NOMBRE: ".$this->getEnombre()."\n";
         $cadena.= "DIRECCION: ".$this->getEdireccion()."\n";
-		$cadena.= "VIAJES DE ESA EMPRESA: \n" . $this->mostrarColeccionEmpresa();
-
         return $cadena;
     }
 }
