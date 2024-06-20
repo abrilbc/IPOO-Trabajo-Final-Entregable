@@ -31,7 +31,6 @@ class BaseDatos {
      */
     public function getError(){
         return "\n".$this->ERROR;
-        
     }
     
     /**

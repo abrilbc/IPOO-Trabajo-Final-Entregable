@@ -36,7 +36,7 @@ class ResponsableV extends Persona{
 
 	function mostrarResponsable() {
 		$obj_responsable = new ResponsableV();
-		$coleccionResponsable = $obj_responsable->listar();
+		$coleccionResponsable = $obj_responsable->listar("");
 		$cadena = "";
 		if (!empty($coleccionResponsable)) {
 			$cadena .= "Actualmente existen " . count($coleccionResponsable) . " responsable(s): ";
@@ -78,7 +78,7 @@ class ResponsableV extends Persona{
 	}	
     
 
-	public function listar($condicion=""){
+	public function listar($condicion){
 	    $arregloResponsable = null;
 		$base = new BaseDatos();
 		$consultaResponsable="Select * from responsable ";

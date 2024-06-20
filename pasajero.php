@@ -87,7 +87,7 @@ class Pasajero extends Persona{
     
 	function mostrarPasajero() {
 		$obj_pasajero = new Pasajero();
-		$coleccionPasajero = $obj_pasajero->listar();
+		$coleccionPasajero = $obj_pasajero->listar("");
 		$cadena = "";
 		if (!empty($coleccionPasajero)) {
 			$cadena .= "Actualmente existen " . count($coleccionPasajero) . " pasajero(s): ";
@@ -100,7 +100,7 @@ class Pasajero extends Persona{
 		return $cadena;
 	}
 
-	public function listar($condicion=""){
+	public function listar($condicion){
 	    $arregloPasajero = null;
 		$base=new BaseDatos();
 		$consultaPasajeros = "Select * from pasajero ";

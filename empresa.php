@@ -65,7 +65,7 @@ class Empresa{
 
 	function mostrarEmpresas() {
 		$obj_empresa = new Empresa();
-		$coleccionEmpresas = $obj_empresa->listar();
+		$coleccionEmpresas = $obj_empresa->listar("");
 		$cadena = "";
 		if (!empty($coleccionEmpresas)) {
 			$cadena .= "Actualmente existen " . count($coleccionEmpresas) . " empresa(s): ";
@@ -109,7 +109,7 @@ class Empresa{
 		 return $resp;
 	}	
 
-    public function listar($condicion=""){
+    public function listar($condicion){
 	    $arregloEmpresa = null;
 		$base=new BaseDatos();
 		$consultaEmpresa="Select * from empresa ";
@@ -146,8 +146,8 @@ class Empresa{
     public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
-		$consultaInsertar="INSERT INTO empresa(idempresa, enombre, edireccion) 
-				VALUES (".$this->getIdempresa().",'".$this->getEnombre()."','".$this->getEdireccion()."')";
+		$consultaInsertar="INSERT INTO empresa( enombre, edireccion) 
+				VALUES (".$this->getEnombre()."','".$this->getEdireccion()."')";
 		if($base->Iniciar()){
 
 			if($idempresa = $base->devuelveIDInsercion($consultaInsertar)){

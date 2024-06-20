@@ -4,8 +4,8 @@ class Viaje {
     private $idviaje;
     private $vdestino;
     private $vcantmaxpasajeros;
-    private $idempresa;
-    private $rnumeroempleado;
+    private $idempresa; // Hacer delegación
+    private $rnumeroempleado; // Hacer delegación
     private $vimporte;
     private $coleccionObjPasajeros;
     private $mensajeoperacion;
@@ -21,7 +21,6 @@ class Viaje {
     }
 
     public function cargar($vdestino,$vcantmaxpasajeros,$idempresa,$rnumeroempleado,$vimporte){
-        // $this->setIdviaje($idviaje);
         $this->setVdestino($vdestino);
         $this->setVcantmaxpasajeros($vcantmaxpasajeros);
         $this->setIdempresa($idempresa);
@@ -149,12 +148,11 @@ class Viaje {
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaViaje)){
 				if($row2=$base->Registro()){
-
 				    $this->setIdviaje($idviaje);
 				    $this->setVdestino($row2['vdestino']);
 					$this->setVcantmaxpasajeros($row2['vcantmaxpasajeros']);
-					$this->setIdempresa($row2['idempresa']);
-					$this->setRnumeroempleado($row2['rnumeroempleado']);
+					$this->setIdempresa($row2['idempresa']); // Hacer delegación
+					$this->setRnumeroempleado($row2['rnumeroempleado']); //Hacer delegación
                     $this->setVimporte($row2['vimporte']);
 					$resp= true;
 				}				
@@ -175,7 +173,7 @@ class Viaje {
 
     function mostrarViajes() {
 		$obj_viaje = new Viaje();
-		$coleccionViajes = $obj_viaje->listar();
+		$coleccionViajes = $obj_viaje->listar("");
 		$cadena = "";
 		if (!empty($coleccionViajes)) {
 			$cadena .= "Actualmente existen " . count($coleccionViajes) . " viaje(s): ";
@@ -188,7 +186,7 @@ class Viaje {
 		return $cadena;
 	}
 
-    public function listar($condicion=""){
+    public function listar($condicion){
 	    $arregloViaje = null;
 		$base=new BaseDatos();
 		$consultaViaje="Select * from viaje ";
@@ -203,8 +201,8 @@ class Viaje {
 				    $idviaje=$row2['idviaje'];
 					$vdestino=$row2['vdestino'];
 					$vcantmaxpasajeros=$row2['vcantmaxpasajeros'];
-					$idempresa=$row2['idempresa'];
-					$rnumeroempleado=$row2['rnumeroempleado'];
+					$idempresa=$row2['idempresa']; //hacer delegación
+					$rnumeroempleado=$row2['rnumeroempleado']; //hacer delegación
                     $vimporte=$row2['vimporte'];
 				
 					$viaje=new Viaje();
