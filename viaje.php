@@ -14,8 +14,8 @@ class Viaje {
         $this->idviaje = 1;
         $this->vdestino ="vdestino";
         $this->vcantmaxpasajeros="";
-        $this->obj_empresa ="";
-        $this->obj_responsable ="";
+        $this->obj_empresa = "";
+        $this->obj_responsable = "";
         $this->vimporte ="";
         $this->coleccionObjPasajeros=[];
     }
@@ -208,7 +208,7 @@ class Viaje {
 					$viaje->Buscar($id);
 
 					array_push($arregloViajes, $viaje);
-					$this->setObj_empresa($objEmpresa->getIdempresa());
+					$this->setObj_empresa($objEmpresa);
 					$resp = true;
 				}				
 			
@@ -278,8 +278,9 @@ class Viaje {
     public function insertar(){
 		$base=new BaseDatos();
 		$resp= false;
+        $objEmp= $this->getObj_empresa();
 		$consultaInsertar="INSERT INTO viaje(vdestino, vcantmaxpasajeros, idempresa, rnumeroempleado, vimporte) 
-				VALUES ('".$this->getVdestino()."',".$this->getVcantmaxpasajeros().",".$this->getObj_empresa()->getIdempresa().",".$this->getObj_responsable()->getRnumeroempleado().",".$this->getVimporte().")";
+				VALUES ('".$this->getVdestino()."',".$this->getVcantmaxpasajeros().",".$objEmp->getIdempresa().",".$this->getObj_responsable()->getRnumeroempleado().",".$this->getVimporte().")";
 		if($base->Iniciar()){
 
 			if($idviaje = $base->devuelveIDInsercion($consultaInsertar)){

@@ -162,7 +162,7 @@ function gestionViaje() {
                     echo "Ingrese el Importe: ";
                     $imp = trim(fgets(STDIN));
                     $viaje = new Viaje();
-                    $viaje->cargar($destino, $cantMax, $empresa, $responsable, $imp);
+                    $viaje->cargar($destino, $cantMax, $emp , $obj_responsable, $imp);
                     if ($viaje->insertar()){
                         echo "-----> Viaje creado correctamente.\n";
                     };

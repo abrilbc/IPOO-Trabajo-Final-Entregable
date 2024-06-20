@@ -88,12 +88,12 @@ class Empresa{
 					//Creamos un objeto Viaje para la delegación
 					$coleccionViaje = $this->getColeccionObjViaje();
 					$objViaje = new Viaje();
-					$viajeEncontrado = $objViaje->Buscar($idempresa);
+					$objViaje->Buscar($idempresa);
 
 				    $this->setIdempresa($idempresa);
 				    $this->setEnombre($row2['enombre']);
 					$this->setEdireccion($row2['edireccion']);
-					array_push($coleccionViaje, $viajeEncontrado);
+					array_push($coleccionViaje, $objViaje);
 					$this->setColeccionObjViaje($coleccionViaje);
 					$resp= true;
 				}
