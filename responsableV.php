@@ -39,12 +39,12 @@ class ResponsableV extends Persona{
 		$coleccionResponsable = $obj_responsable->listar("");
 		$cadena = "";
 		if (!empty($coleccionResponsable)) {
-			$cadena .= "Actualmente existen " . count($coleccionResponsable) . " responsable(s): ";
+			$cadena .= "|---> Actualmente existen " . count($coleccionResponsable) . " responsable(s): ";
 			foreach ($coleccionResponsable as $responsable) {
 				$cadena .= $responsable->__toString();
 			}
 		} else {
-			$cadena .= "No hay responsables existentes";
+			$cadena .= "|---> No hay responsables existentes";
 		}
 		return $cadena;
 	}

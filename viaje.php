@@ -355,7 +355,7 @@ class Viaje {
         $cadena.= "NUMERO: ".$this->getIdviaje()."\n";
         $cadena.= "DESTINO: ".$this->getVdestino()."\n";
         $cadena.= "CANTIDAD MAXIMA DE PASAJEROS: ".$this->getVcantmaxpasajeros()."\n";
-        $cadena.= "EMPRESA: ".$this->getObj_empresa()."\n";
+        $cadena.= "EMPRESA: ". $this->getObj_empresa() ."\n";
         return $cadena;
     }
     public function __toString(){

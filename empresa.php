@@ -14,8 +14,7 @@ class Empresa{
 		$this->coleccionObjViaje=[];
     }
 
-    public function cargar($enombre,$edireccion){	
-	    // $this->setIdempresa($idempresa);
+    public function cargar($enombre,$edireccion){
         $this->setEnombre($enombre);
         $this->setEdireccion($edireccion);
     }
@@ -84,7 +83,7 @@ class Empresa{
 		if (!empty($coleccionEmpresas)) {
 			switch ($tipo) {
 				case 'mostrar':
-					$cadena .= "Actualmente existen " . count($coleccionEmpresas) . " empresa(s): ";
+					$cadena .= "|---> Actualmente existen " . count($coleccionEmpresas) . " empresa(s): ";
 					foreach ($coleccionEmpresas as $empresa) {
 						$idempresa = $empresa->getIdempresa();
 						$cadena .= $empresa;
@@ -225,9 +224,6 @@ class Empresa{
 			
 		}
 		return $resp;
-	}
-	public function paraVisualizar() {
-	
 	}
 
    public function __toString(){

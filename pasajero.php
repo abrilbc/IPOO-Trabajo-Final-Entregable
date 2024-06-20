@@ -53,6 +53,9 @@ class Pasajero extends Persona{
 		 return $resp;
 	}	
 
+	/** Función que devuelve un arreglo de los viajes que se encuentran con el id de viaje ingresado
+	 * Parecido a listar() ya que cuando usabamos listar se nos trababa el visual
+	 */
 	public function pasajerosEnViaje($idViaje) {
 		$base = new BaseDatos();
 		$consultaPasajero = "Select * from pasajero where idviaje=" . $idViaje;
@@ -91,13 +94,13 @@ class Pasajero extends Persona{
 		if (!empty($coleccionPasajero)) {
 			switch ($tipo) {
 				case 'mostrar':
-					$cadena .= "Actualmente existen " . count($coleccionPasajero) . " pasajero(s) para modificar: ";
+					$cadena .= "|---> Actualmente existen " . count($coleccionPasajero) . " pasajero(s): ";
 					foreach ($coleccionPasajero as $pasajero) {
 					$cadena .= $pasajero->stringSimplificado();
 					}
 					break;
 				case 'visualizar';
-					$cadena .= "Actualmente existen " . count($coleccionPasajero) . " pasajero(s): ";
+					$cadena .= "|---> Actualmente existen " . count($coleccionPasajero) . " pasajero(s): ";
 					foreach ($coleccionPasajero as $pasajero) {
 					$cadena .= $pasajero;
 					}

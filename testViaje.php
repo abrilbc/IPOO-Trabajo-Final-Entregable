@@ -67,37 +67,7 @@ switch($opcion){
         $obj_Empresa = new Empresa;
         $visualizar = $obj_Empresa->mostrarEmpresas('visualizar');
         echo $visualizar;
-        echo "\nIngrese el ID de la empresa a modificar: ";
-        $idEmpresa=trim(fgets(STDIN));
-        echo "\n¿Qué desea modificar? \n 1.NOMBRE \n 2.DIRECCION";
-        echo "\nELECCION: ";
-        $opcion=trim(fgets(STDIN));
-
-        $operacion = null;
-        switch ($opcion) {
-            case 1:
-                echo "NUEVO NOMBRE: ";
-                $nombreNuevo=trim(fgets(STDIN));
-                $obj_Empresa=new Empresa();
-                $obj_Empresa->Buscar($idEmpresa);
-                $obj_Empresa->setEnombre($nombreNuevo);
-                break;
-            case 2: 
-                echo "NUEVA DIRECCION: ";
-                $direccionNueva=trim(fgets(STDIN));
-                $obj_Empresa=new Empresa();
-                $obj_Empresa->Buscar($idEmpresa);
-                $obj_Empresa->setEdireccion($direccionNueva);
-                break;
-            default:
-                echo "-----> Opción Incorrecta\n";
-        }
-        // Modifica la empresa
-        $operacion = $obj_Empresa->modificar();
-        if ($operacion) {
-            echo "Datos cambiados existosamente:";
-            echo $obj_Empresa;
-        }
+        modificarEmpresa($obj_Empresa);
         break;
     case 3: // Elimina una empresa
         $obj_Empresa = new Empresa();
@@ -253,7 +223,8 @@ function gestionarResponsable(){
     echo "1. Agregar responsable\n";
     echo "2. Modificar responsable\n";
     echo "3. Eliminar responsable\n";
-    echo "4. Salir\n";
+    echo "4. Mostrar Lista Responsables\n";
+    echo "5. Salir\n";
     echo "ELECCION: ";
     $opcion = trim(fgets(STDIN));
     $responsable = new ResponsableV();
@@ -278,117 +249,51 @@ function gestionarResponsable(){
             echo "\nHubo un problema con la operación.\n";
         }
     break;
-    
     case 2:
         /* Muestra los responsables existentes */
+        $responsable = new ResponsableV();
+        $obj_persona = new Persona();
+        $visualizar = $responsable->mostrarResponsable();
+        echo $visualizar;
+        modificarResponsable($responsable, $obj_persona);
+        break;
+    case 3:
+        /* Mostrar responsables existentes */
         $responsable = new ResponsableV();
         $visualizar = $responsable->mostrarResponsable();
         echo $visualizar;
 
-        echo "\n\nIngrese el numero de empleado del responsable a modificar: ";
-        $nroEmpleado=trim(fgets(STDIN));
+        echo "\nIngrese el numero de empleado que desea ELIMINAR: ";
+        $nroEliminar= trim(fgets(STDIN));
+        $obj_responsable = new ResponsableV();
+        $buscar = $obj_responsable->Buscar($nroEliminar);
+        if ($buscar) {
+            echo "----> ¿Está segurx de querer eliminar al responsable " . $obj_responsable->getRnumeroempleado() . "? (SI/NO)\n";
+            echo "\nDECISION: ";
+            $decision=trim(fgets(STDIN));
 
-        if ($responsable->Buscar($nroEmpleado)) {
-            echo "\n¿Qué desea modificar? \n 1.NOMBRE \n 2.APELLIDO \n 3.DNI \n 4.TELEFONO \n 5.NUMERO DE LICENCIA";
-            echo "\nELECCION: ";
-            $opcion=trim(fgets(STDIN));
-            $operacion = null;
-            switch($opcion){
-            case 1:
-                echo "NUEVO NOMBRE: ";
-                $nombreNuevo = trim(fgets(STDIN));
-                $obj_responsable = new ResponsableV();
-                $obj_responsable->Buscar($nroEmpleado);
-                $idresponsable = $obj_responsable->getIdPersona();
-                $obj_persona = new Persona();
-                $obj_persona->Buscar($idresponsable);
-                $obj_persona->setNombre($nombreNuevo);
-                $operacion = $obj_persona->modificar();
-                break;
-            case 2:
-                echo "NUEVO APELLIDO: ";
-                $apellidoNuevo=trim(fgets(STDIN));
-                $obj_responsable=new ResponsableV();
-                $obj_responsable->Buscar($nroEmpleado);
-                $idresponsable = $obj_responsable->getIdPersona();
-                $obj_persona = new Persona();
-                $obj_persona->Buscar($idresponsable);
-                $obj_persona->setApellido($apellidoNuevo);
-                $operacion = $obj_persona->modificar();
-                break;
-            case 3:
-                echo "NUEVO DNI: ";
-                $dniNuevo=trim(fgets(STDIN));
-                $obj_responsable=new ResponsableV();
-                $obj_responsable->Buscar($nroEmpleado);
-                $idresponsable = $obj_responsable->getIdPersona();
-                $obj_persona = new Persona();
-                $obj_persona->Buscar($idresponsable);
-                $obj_persona->setNrodoc($dniNuevo);
-                $operacion = $obj_persona->modificar();
-                break;
-            case 4:
-                echo "NUEVO TELEFONO: ";
-                $telefonoNuevo=trim(fgets(STDIN));
-                $obj_responsable=new ResponsableV();
-                $obj_responsable->Buscar($nroEmpleado);
-                $idresponsable = $obj_responsable->getIdPersona();
-                $obj_persona = new Persona();
-                $obj_persona->Buscar($idresponsable);
-                $obj_persona->setTelefono($telefonoNuevo);
-                $operacion = $obj_persona->modificar();
-                break;
-            case 5:
-                echo "NUEVO NUMERO DE LICENCIA: ";
-                $nroLicenciaNuevo=trim(fgets(STDIN));
-                $obj_responsable=new ResponsableV();
-                $obj_responsable->Buscar($nroEmpleado);
-                $idresponsable = $obj_responsable->getIdPersona();
-                $obj_responsable->setRnumerolicencia($nroLicenciaNuevo);
-                $operacion = $obj_responsable->modificar();
-                break;
-            default:
-                echo "-----> Opción incorrecta\n";
-            }
-            if ($operacion && $operacion != null) {
-                echo "Datos cambiados existosamente.";
-                // echo $obj_persona->__toString();
-            }
-            break;
-        } else {
-            echo "-----> Responsable no encontrado.\n";
-        }
-    case 3:
-            /* Mostrar responsables existentes */
-            $responsable = new ResponsableV();
-            $visualizar = $responsable->mostrarResponsable();
-            echo $visualizar;
-
-            echo "\nIngrese el numero de empleado que desea ELIMINAR: ";
-            $nroEliminar= trim(fgets(STDIN));
-            $obj_responsable = new ResponsableV();
-            $buscar = $obj_responsable->Buscar($nroEliminar);
-            if ($buscar) {
-                echo "----> ¿Está segurx de querer eliminar al responsable " . $obj_responsable->getRnumeroempleado() . "? (SI/NO)\n";
-                echo "\nDECISION: ";
-                $decision=trim(fgets(STDIN));
-
-                if($decision == "si" || $decision == "SI" || $decision == "s" || $decision == "S"){
-                    $operacion = $obj_responsable->eliminar();
-                    if ($operacion) {
-                        echo "Responsable eliminado exitosamente.";
-                    } else {
-                        echo "Hubo un problema con la eliminación.";
-                    }
-                } elseif ($decision == "no" || $decision == "NO" || $decision == "n" || $decision == "N") {
-                    echo "El responsable " . $obj_responsable->getRnumeroempleado() . " NO se ha eliminado";
+            if($decision == "si" || $decision == "SI" || $decision == "s" || $decision == "S"){
+                $operacion = $obj_responsable->eliminar();
+                if ($operacion) {
+                    echo "Responsable eliminado exitosamente.";
+                } else {
+                    echo "Hubo un problema con la eliminación.";
                 }
-            } else {
-                echo "---> No existe un responsable con ese numero de empleado.";
+            } elseif ($decision == "no" || $decision == "NO" || $decision == "n" || $decision == "N") {
+                echo "El responsable " . $obj_responsable->getRnumeroempleado() . " NO se ha eliminado";
             }
+        } else {
+            echo "---> No existe un responsable con ese numero de empleado.";
+        }
+        break;
+        case 4: 
+            $responsable = new ResponsableV();
+            echo $responsable->mostrarResponsable();
             break;
-            default:
-             echo "-----> Opcion incorrecta\n";
+        case 5:
+            break;
+        default:
+            echo "-----> Opcion incorrecta\n";
     }
 }
 
@@ -397,7 +302,8 @@ function gestionarPasajero(){
     echo "1. AGREGAR pasajero\n";
     echo "2. MODIFICAR pasajero\n";
     echo "3. ELIMINAR pasajero\n";
-    echo "4. Salir\n";
+    echo "4. Mostrar pasajeros\n";
+    echo "5. Salir\n";
     echo "ELECCION: ";
     $opcion = trim(fgets(STDIN));
     switch($opcion){
@@ -443,73 +349,7 @@ function gestionarPasajero(){
         echo "\nIngrese el numero de pasajero a modificar: ";
         $nroPasajero=trim(fgets(STDIN));
         if ($pasaj->Buscar($nroPasajero)){
-            echo "\n¿Qué desea modificar? \n 1.NOMBRE \n 2.APELLIDO \n 3.DNI \n 4.TELEFONO \n 5.VIAJE";
-            echo "\nELECCION: ";
-            $opcion=trim(fgets(STDIN));
-            $operacion = null;
-            switch($opcion){
-            case 1:
-                echo "NUEVO NOMBRE: ";
-                $nombreNuevo = trim(fgets(STDIN));
-                $obj_pasajero = new Pasajero();
-                $obj_pasajero->Buscar($nroPasajero);
-                $idpasajero = $obj_pasajero->getIdPersona();
-                $obj_persona = new Persona();
-                $obj_persona->Buscar($idpasajero);
-                $obj_persona->setnombre($nombreNuevo);
-                $operacion = $obj_persona->modificar();
-                break;
-            case 2:
-                echo "NUEVO APELLIDO: ";
-                $apellidoNuevo=trim(fgets(STDIN));
-                $obj_pasajero=new Pasajero();
-                $obj_pasajero->Buscar($nroPasajero);
-                $idpasajero = $obj_pasajero->getIdPersona();
-                $obj_persona = new Persona();
-                $obj_persona->Buscar($idpasajero);
-                $obj_persona->setapellido($apellidoNuevo);
-                $operacion = $obj_persona->modificar();
-                break;
-            case 3:
-                echo "NUEVO DNI: ";
-                $dniNuevo=trim(fgets(STDIN));
-                $obj_pasajero=new Pasajero();
-                $obj_pasajero->Buscar($nroPasajero);
-                $idpasajero = $obj_pasajero->getIdPersona();
-                $obj_persona = new Persona();
-                $obj_persona->Buscar($idpasajero);
-                $obj_persona->setNrodoc($dniNuevo);
-                $operacion = $obj_persona->modificar();
-                break;
-            case 4:
-                echo "NUEVO TELEFONO: ";
-                $telefonoNuevo=trim(fgets(STDIN));
-                $obj_pasajero=new Pasajero();
-                $obj_pasajero->Buscar($nroPasajero);
-                $idpasajero = $obj_pasajero->getIdPersona();
-                $obj_persona = new Persona();
-                $obj_persona->Buscar($idpasajero);
-                $obj_persona->setTelefono($telefonoNuevo);
-                $operacion = $obj_persona->modificar();
-                break;
-            case 5:
-                echo "\nViajes Disponibles: \n";
-                $viaje = new Viaje();
-                echo $viaje->mostrarViajes('mostrar');
-                echo "NUEVO VIAJE: ";
-                $idViajeNuevo = trim(fgets(STDIN));
-                $obj_pasajero = new Pasajero();
-                $obj_pasajero->Buscar($nroPasajero);
-                $obj_pasajero->setObjViaje($idViajeNuevo);
-                $operacion = $obj_pasajero->modificar();
-                break;
-                default:
-                echo "Opción Incorrecta.";
-            }
-            if ($operacion && $operacion != null) {
-                echo "Datos cambiados ex<istosamente.";
-                echo $obj_pasajero;
-            }
+            modificarPasajero($pasaj, $nroPasajero);
         }else {
             echo "----> Pasajero NO encontrado.\n";
         }
@@ -541,6 +381,10 @@ function gestionarPasajero(){
             }
             break;
         case 4:
+            $pasajero = new Pasajero();
+            echo $pasajero->mostrarPasajero('mostrar');
+            break;
+        case 5:
             echo "\n¡Nos vamos luego!";
             break;
         default:
@@ -548,6 +392,143 @@ function gestionarPasajero(){
     }
 }
 
+function modificarResponsable($responsable, $persona) {
+    
+    echo "\n\nIngrese el numero de empleado del responsable a modificar: ";
+    $nroEmpleado=trim(fgets(STDIN));
+
+    if ($responsable->Buscar($nroEmpleado)) {
+        echo "\n¿Qué desea modificar? \n 1.NOMBRE \n 2.APELLIDO \n 3.DNI \n 4.TELEFONO \n 5.NUMERO DE LICENCIA";
+        echo "\nELECCION: ";
+        $opcion=trim(fgets(STDIN));
+        $operacion = null;
+        switch($opcion){
+        case 1:
+            echo "NUEVO NOMBRE: ";
+            $nombreNuevo = trim(fgets(STDIN));
+            $responsable->Buscar($nroEmpleado);
+            $idresponsable = $responsable->getIdPersona();
+            $persona->Buscar($idresponsable);
+            $persona->setNombre($nombreNuevo);
+            $operacion = $persona->modificar();
+            break;
+        case 2:
+            echo "NUEVO APELLIDO: ";
+            $apellidoNuevo=trim(fgets(STDIN));
+            $responsable->Buscar($nroEmpleado);
+            $idresponsable = $responsable->getIdPersona();
+            $persona->Buscar($idresponsable);
+            $persona->setApellido($apellidoNuevo);
+            $operacion = $persona->modificar();
+            break;
+        case 3:
+            echo "NUEVO DNI: ";
+            $dniNuevo = trim(fgets(STDIN));
+            $responsable->Buscar($nroEmpleado);
+            $idresponsable = $responsable->getIdPersona();
+            $persona->Buscar($idresponsable);
+            $persona->setNrodoc($dniNuevo);
+            $operacion = $persona->modificar();
+            break;
+        case 4:
+            echo "NUEVO TELEFONO: ";
+            $telefonoNuevo=trim(fgets(STDIN));
+            $responsable->Buscar($nroEmpleado);
+            $idresponsable = $responsable->getIdPersona();
+            $persona->Buscar($idresponsable);
+            $persona->setTelefono($telefonoNuevo);
+            $operacion = $persona->modificar();
+            break;
+        case 5:
+            echo "NUEVO NUMERO DE LICENCIA: ";
+            $nroLicenciaNuevo=trim(fgets(STDIN));
+            $responsable->Buscar($nroEmpleado);
+            $idresponsable = $responsable->getIdPersona();
+            $responsable->setRnumerolicencia($nroLicenciaNuevo);
+            $operacion = $responsable->modificar();
+            break;
+        default:
+            echo "-----> Opción incorrecta\n";
+        }
+        if ($operacion && $operacion != null) {
+            echo "Datos cambiados existosamente.";
+            echo $responsable;
+        }
+    } else {
+        echo "-----> Responsable no encontrado.\n";
+    }
+}
+
+function modificarPasajero($pasajero, $nroPasajero) {
+  do {  echo "\n¿Qué desea modificar? 
+        \n 1.NOMBRE 
+        \n 2.APELLIDO 
+        \n 3.DNI 
+        \n 4.TELEFONO 
+        \n 5.VIAJE";
+            echo "\nELECCION: ";
+            $opcion = trim(fgets(STDIN));
+        
+            $operacion = null;
+            switch($opcion){
+            case 1:
+                echo "NUEVO NOMBRE: ";
+                $nombreNuevo = trim(fgets(STDIN));
+                $pasajero->Buscar($nroPasajero);
+                $idpasajero = $pasajero->getIdPersona();
+                $obj_persona = new Persona();
+                $obj_persona->Buscar($idpasajero);
+                $obj_persona->setnombre($nombreNuevo);
+                $operacion = $obj_persona->modificar();
+                break;
+            case 2:
+                echo "NUEVO APELLIDO: ";
+                $apellidoNuevo=trim(fgets(STDIN));
+                $pasajero->Buscar($nroPasajero);
+                $idpasajero = $pasajero->getIdPersona();
+                $obj_persona = new Persona();
+                $obj_persona->Buscar($idpasajero);
+                $obj_persona->setapellido($apellidoNuevo);
+                $operacion = $obj_persona->modificar();
+                break;
+            case 3:
+                echo "NUEVO DNI: ";
+                $dniNuevo=trim(fgets(STDIN));
+                $pasajero->Buscar($nroPasajero);
+                $idpasajero = $pasajero->getIdPersona();
+                $obj_persona = new Persona();
+                $obj_persona->Buscar($idpasajero);
+                $obj_persona->setNrodoc($dniNuevo);
+                $operacion = $obj_persona->modificar();
+                break;
+            case 4:
+                echo "NUEVO TELEFONO: ";
+                $telefonoNuevo=trim(fgets(STDIN));
+                $pasajero->Buscar($nroPasajero);
+                $idpasajero = $pasajero->getIdPersona();
+                $obj_persona = new Persona();
+                $obj_persona->Buscar($idpasajero);
+                $obj_persona->setTelefono($telefonoNuevo);
+                $operacion = $obj_persona->modificar();
+                break;
+            case 5:
+                echo "\nViajes Disponibles: \n";
+                $viaje = new Viaje();
+                echo $viaje->mostrarViajes('mostrar');
+                echo "NUEVO VIAJE: ";
+                $idViajeNuevo = trim(fgets(STDIN));
+                $pasajero->Buscar($nroPasajero);
+                $pasajero->setObjViaje($idViajeNuevo);
+                $operacion = $pasajero->modificar();
+                break;
+                default:
+                echo "Opción Incorrecta.";
+            }
+            if ($operacion) {
+                echo "Datos cambiados ex<istosamente.";
+            }
+        } while ($opcion < 1 && $opcion > 5);
+}
 
 function modificarViaje($viaje) {
     echo "\nViaje encontrado.\n";
@@ -590,16 +571,41 @@ function modificarViaje($viaje) {
                         break;
                     default: 
                         echo "Opción Incorrecta.";
-                }
-                $operacion = $viaje->modificar();
-                if ($operacion) {
+                        break;
+                    }
+                if ($viaje->modificar()) {
                     echo "Viaje modificado exitosamente.\n";
                 }
 }
-function visualizarEmpresas() {
-    $obj_Empresa = new Empresa();
-    $visualizar = $obj_Empresa->mostrarEmpresas();
-    echo $visualizar;
+
+function modificarEmpresa($empresa) {
+    echo "\nIngrese el ID de la empresa a modificar: ";
+    $idEmpresa=trim(fgets(STDIN));
+    echo "\n¿Qué desea modificar? \n 1.NOMBRE \n 2.DIRECCION";
+    echo "\nELECCION: ";
+    $opcion=trim(fgets(STDIN));
+    switch ($opcion) {
+        case 1:
+            echo "NUEVO NOMBRE: ";
+            $nombreNuevo=trim(fgets(STDIN));
+            $empresa->Buscar($idEmpresa);
+            $empresa->setEnombre($nombreNuevo);
+            break;
+        case 2: 
+            echo "NUEVA DIRECCION: ";
+            $direccionNueva=trim(fgets(STDIN));
+            $empresa->Buscar($idEmpresa);
+            $empresa->setEdireccion($direccionNueva);
+            break;
+        default:
+            echo "-----> Opción Incorrecta\n";
+    }
+    // Modifica la empresa
+    $operacion = $empresa->modificar();
+    if ($operacion) {
+        echo "Datos cambiados existosamente:";
+        echo $empresa;
+    }
 }
 
 menuPrincipal();
