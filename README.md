@@ -8,6 +8,7 @@ carlos.velo@est.fi.uncoma.edu.ar
 
 Celayes, Brisa Abril
 FAI-4923
+brisa.celayes@est.fi.uncoma.edu.ar
 
 De La Iglesia, Alberto Martin 
 FAI-5084
